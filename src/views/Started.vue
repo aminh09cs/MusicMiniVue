@@ -1,5 +1,4 @@
 <script setup>
-
 import StartedMode from './StartedMode.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -62,11 +61,7 @@ const gotoLogin = () => {
 
 </template>
 <style scoped lang="scss">
-/* @media screen and (min-width: 390px) {
-  body {
-    background-color: lightblue;
-  }
-} */
+@import "../helper/mixin";
 
 .sun-moon {
   display: flex;
@@ -91,10 +86,8 @@ const gotoLogin = () => {
     }
 
     p {
-      font-weight: 700;
-      font-size: 17px;
+      @include styleText(#DADADA, 17px, 700);
       line-height: 23px;
-      color: #DADADA;
     }
   }
 }
@@ -125,43 +118,21 @@ const gotoLogin = () => {
 
 
     .title {
-      font-weight: 700;
-      font-size: 25px;
       line-height: 34px;
       text-align: center;
       text-transform: capitalize;
-      color: #DADADA;
+      @include styleText(#DADADA, 25px, 700);
 
     }
 
     .intro {
-      font-weight: 400;
-      font-size: 17px;
       line-height: 23px;
       text-align: center;
-      color: #797979;
+      @include styleText(#797979, 17px, 400);
     }
 
     .btn-started {
-      width: 100%;
-      height: 92px;
-      background-color: #42C83C;
-      border: 2px solid #42C83C;
-      border-radius: 30px;
-      transition: background-color .5s;
-
-      cursor: pointer;
-
-      &:hover {
-        background-color: transparent;
-      }
-
-      font-weight: 700;
-      font-size: 22px;
-      line-height: 30px;
-      text-transform: capitalize;
-      color: #F6F6F6;
-
+      @include button(100%, 92px, 30px, 22px);
     }
   }
 }

@@ -7,18 +7,31 @@ const gotoSupport = () => {
 }
 
 const info = ref({
-  name: "",
+  fullname: "",
+  email: "",
   password: "",
 })
 
 const toggleEye = ref(true);
 
 //methods
+const validateEmail = (email) => {
+  let regex = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  return regex.test(email)
+};
+const validatePassword = (password) => {
+  return password.length > 6;
+}
 const onSubmit = () => {
-  console.log("no working");
-  info.value.name = "";
-  info.value.password = "";
-  router.push({ name: 'home' });
+  if (!validateEmail(info.value.email) || !validatePassword(info.value.password)) {
+    alert('YOUR GMAIL OR YOUR PASSWORD IS FAILED');
+  }
+  else {
+    alert('SUCCESS');
+    info.value.fullname = "";
+    info.value.email = "";
+    info.value.password = "";
+  }
 
 }
 const onShowPassword = () => {
@@ -28,11 +41,12 @@ const onShowPassword = () => {
 </script>
 
 <template>
-  <div class="form-signup">
-    <h1>Sign In</h1>
+  <div class="form-register">
+    <h1>Register</h1>
     <p>If You Need Any Support <span @click=gotoSupport>Click Here</span></p>
-    <form class="form-signup-content" @submit.prevent="onSubmit">
-      <input type="text" placeholder="Enter Username or Email" v-model="info.name" />
+    <form class="form-register-content" @submit.prevent="onSubmit">
+      <input type="text" placeholder="Full Name" v-model="info.fullname" />
+      <input type="text" placeholder="Enter Email" v-model="info.email" />
       <input type="password" placeholder="Password" v-model="info.password" v-if="toggleEye" class="password" />
       <input type="text" placeholder="Password" v-model="info.password" v-else class="password" />
       <div class="eye" @click="onShowPassword">
@@ -42,7 +56,7 @@ const onShowPassword = () => {
 
       <p>Recovery password</p>
 
-      <button type="submit" class="btn-submit">Sign In</button>
+      <button type="submit" class="btn-submit">Register Account</button>
       <div class="form-footer">
         <div></div>
         <p>or</p>
@@ -54,7 +68,9 @@ const onShowPassword = () => {
 </template>
 
 <style scoped lang="scss">
-.form-signup {
+@import '../../helper/mixin';
+
+.form-register {
   width: 100%;
   text-align: center;
 
@@ -63,16 +79,12 @@ const onShowPassword = () => {
   gap: 20px;
 
   h1 {
-    font-weight: 700;
-    font-size: 30px;
+    @include styleText(#F2F2F2, 30px, 700);
     line-height: 41px;
-    color: #F2F2F2;
   }
 
   p {
-    font-weight: 400;
-    font-size: 12px;
-    color: #E1E1E1;
+    @include styleText(#E1E1E1, 12px, 400);
 
     span {
       cursor: pointer;
@@ -87,48 +99,27 @@ const onShowPassword = () => {
     position: relative;
 
     input {
-      padding: 29px;
-      border: 1px solid #414141;
-      background: transparent;
-      color: white;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 1px;
+      @include input-form();
     }
 
     .eye {
       position: absolute;
       right: 20px;
-      top: 37%;
+      top: 51%;
       color: #5B5B5B;
-
       cursor: pointer;
-      ;
+
     }
 
     p {
-      font-weight: 700;
-      font-size: 14px;
+      @include styleText(#AEAEAE, 14px, 700);
       line-height: 19px;
       text-align: left;
-
-      color: #AEAEAE;
     }
   }
 
   .btn-submit {
-    width: 100%;
-    height: 80px;
-    background: #42C83C;
-    box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.04);
-    border-radius: 30px;
-
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 27px;
-    text-align: center;
-    color: #FFFFFF;
+    @include button(100%, 80px, 27px, 20px);
   }
 
   .form-footer {

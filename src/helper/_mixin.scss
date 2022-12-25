@@ -1,0 +1,55 @@
+@mixin styleText($color, $fs, $fw){
+  color: $color;
+  font-size: $fs;
+  font-weight: $fw;
+}
+@mixin button($width, $height, $line-height, $font-size){
+  width: $width;
+  height: $height;
+  line-height: $line-height;
+  text-transform: capitalize;
+  background-color: #42C83C;
+  border: 2px solid #42C83C;
+  border-radius: 30px;
+  color: #F6F6F6;
+  font-weight: 700;
+  font-size: $font-size;
+
+  transition: background-color .5s;
+  cursor: pointer;
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+@mixin button-back(){
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background-color: #1f1f1f;
+  border-radius: 50%;
+
+  cursor: pointer;
+}
+
+@mixin button-play(){
+  display: block;
+  color: #959595;
+  text-align: center;
+  width: 29px;
+  height: 29px;
+  line-height: 29px;
+  border-radius: 50%;
+  background: #2C2C2C;
+}
+@mixin input-form(){
+  padding: 29px;
+  border: 1px solid #414141;
+  background: transparent;
+  color: white;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}

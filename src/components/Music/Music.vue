@@ -1,5 +1,8 @@
 <template>
   {{ $route.params.id }} music page
+  <section class="music">
+
+  </section>
 </template>
 <script setup>
 import { onMounted } from 'vue';

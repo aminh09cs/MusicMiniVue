@@ -104,6 +104,8 @@ const gotoSong = (artist) => {
 </template>
 
 <style lang="scss" scoped>
+@import "../../helper/mixin";
+
 .home-news {
   .news {
     display: flex;
@@ -124,15 +126,7 @@ const gotoSong = (artist) => {
         position: absolute;
         left: 75%;
         top: 69%;
-
-        display: block;
-        color: #959595;
-        text-align: center;
-        width: 29px;
-        height: 29px;
-        line-height: 29px;
-        border-radius: 50%;
-        background: #2C2C2C;
+        @include button-play();
 
       }
 
@@ -199,26 +193,17 @@ const gotoSong = (artist) => {
           gap: 33px;
 
           .play {
-            display: block;
-            color: #959595;
-            text-align: center;
-            width: 29px;
-            height: 29px;
-            line-height: 29px;
-            border-radius: 50%;
-            background: #2C2C2C;
+            @include button-play();
           }
 
           div {
             .song {
-              font-weight: 700;
-              font-size: 16px;
+              @include styleText(#d6d6d6, 16px, 700);
               line-height: 22px;
             }
 
             .artist {
-              font-weight: 400;
-              font-size: 12px;
+              @include styleText(#d6d6d6, 12px, 400);
               line-height: 16px;
             }
           }
@@ -230,19 +215,14 @@ const gotoSong = (artist) => {
           align-items: center;
 
           .time {
-            font-weight: 400;
-            font-size: 15px;
+            @include styleText(#d6d6d6, 15px, 400);
             line-height: 20px;
-            color: #D6D6D6;
           }
 
           .flavor {
             color: #565656;
-            ;
           }
-
         }
-
       }
     }
 

@@ -10,7 +10,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faUserSecret, faEyeSlash, faEye, faMagnifyingGlass, faEllipsisVertical, faPlay, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faEyeSlash, faEye, faMagnifyingGlass, faEllipsisVertical, faPlay, faHeart, faUser, faCompass, faSquare} from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
 
@@ -19,7 +19,7 @@ import './assets/main.css'
 
 const app = createApp(App)
 
-library.add(faUserSecret, faEyeSlash, faEye, faMagnifyingGlass, faEllipsisVertical, faPlay, faHeart)
+library.add(faUserSecret, faEyeSlash, faEye, faMagnifyingGlass, faEllipsisVertical, faPlay, faHeart, faUser, faCompass, faSquare)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(createPinia())
 app.use(router)

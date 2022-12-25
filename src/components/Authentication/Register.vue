@@ -11,17 +11,17 @@ const gotoRegister = () => {
   <div class="register">
     <div class="register-top">
       <div class="btn-back">
-        <router-link :to="{ name: 'started' }"><img src="../assets/Vector.png" alt=""></router-link>
+        <router-link :to="{ name: 'started' }"><img src="../../assets/Vector.png" alt=""></router-link>
       </div>
-      <img src="../assets/logo-spotify.svg" alt="logo-spotify">
+      <img src="../../assets/logo-spotify.svg" alt="logo-spotify">
     </div>
     <div class="register-content">
       <FormRegisterVue />
     </div>
     <div class="register-footer">
       <figure class="register-footer-logo">
-        <img src="../assets/google.png" alt="google-img">
-        <img src="../assets/apple.png" alt="apple-img">
+        <img src="../../assets/google.png" alt="google-img">
+        <img src="../../assets/apple.png" alt="apple-img">
       </figure>
       <div class="register-footer-tag">
         <p>Do You Have An Account ? <span @click="gotoRegister">Sign In</span></p>
@@ -31,6 +31,8 @@ const gotoRegister = () => {
 </template>
 
 <style scoped lang="scss">
+@import '../../helper/mixin';
+
 .register {
   width: 390px;
   height: 844px;
@@ -50,19 +52,8 @@ const gotoRegister = () => {
       height: 33px;
     }
 
-    ;
-
     .btn-back {
-      top: 30px;
-      left: 30px;
-      width: 24px;
-      height: 24px;
-      line-height: 24px;
-      text-align: center;
-      background-color: #1f1f1f;
-      border-radius: 50%;
-
-      cursor: pointer;
+      @include button-back();
     }
   }
 
@@ -91,11 +82,8 @@ const gotoRegister = () => {
     }
 
     &-tag {
-      font-weight: 700;
-      font-size: 14px;
+      @include styleText(#DBDBDB, 14px, 700);
       line-height: 19px;
-
-      color: #DBDBDB;
       text-align: center;
 
       span {
