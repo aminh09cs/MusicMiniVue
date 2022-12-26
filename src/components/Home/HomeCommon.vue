@@ -1,4 +1,19 @@
 <script setup>
+import { ref } from 'vue';
+import HomeArtists from './HomeArtists.vue';
+import HomeCommonContent from './HomeCommonContent.vue';
+import HomeNews from './HomeNews.vue';
+import HomePodcast from './HomePodcast.vue';
+import HomeVideo from './HomeVideo.vue';
+
+const mode = ref("news");
+
+//methods
+const onHandleMode = (_mode) => {
+  mode.value = _mode;
+  console.log(mode.value);
+}
+
 </script>
 <template>
   <div class="home">
@@ -25,13 +40,26 @@
     </div>
     <div class="home-content">
       <nav class="home-content-nav">
-        <router-link :to="{ name: 'home-news' }">News</router-link>
-        <router-link :to="{ name: 'home-video' }">Video</router-link>
-        <router-link :to="{ name: 'home-artists' }">Artists</router-link>
-        <router-link :to="{ name: 'home-podcast' }">Podcast</router-link>
+        <button @click="onHandleMode('news')">News</button>
+        <button @click="onHandleMode('videos')">Video</button>
+        <button @click="onHandleMode('artists')">Artists</button>
+        <button @click="onHandleMode('podcast')">Podcast</button>
       </nav>
       <div class="home-content-content">
-        <router-view></router-view>
+        <HomeCommonContent :mode="mode">
+          <template v-slot:news>
+            <HomeNews />
+          </template>
+          <template v-slot:videos>
+            <HomeVideo />
+          </template>
+          <template v-slot:artists>
+            <HomeArtists />
+          </template>
+          <template v-slot:podcast>
+            <HomePodcast />
+          </template>
+        </HomeCommonContent>
       </div>
     </div>
   </div>
@@ -131,9 +159,10 @@
       overflow-x: scroll;
       margin-bottom: 30px;
 
-      a {
+      button {
         @include styleText(#616161, 20px, 700);
         line-height: 27px;
+        background: transparent;
         display: block;
 
         &:after {

@@ -3,28 +3,19 @@
 import HomeContent from './HomeContent.vue';
 import HomeCommon from './HomeCommon.vue';
 import HomeGlobal from './HomeGlobal.vue';
-import HomeFlavor from './HomeFlavor.vue';
+import HomeArtistPage from './HomeArtistPage.vue';
 import HomeProfile from './HomeProfile.vue';
 
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router'
-const router = useRouter();
-
+import { ref } from 'vue';
 //ref
 const mode = ref("common");
 
 //methods
-const getHomeNews = () => {
-  router.push({ name: 'home-news' });
-}
 
 const onHandleMode = (_mode) => {
   mode.value = _mode;
   console.log(mode.value);
 }
-onMounted(() => {
-  getHomeNews();
-})
 </script>
 <template>
   <section class="home-container">
@@ -36,7 +27,7 @@ onMounted(() => {
         <HomeGlobal />
       </template>
       <template v-slot:flavor>
-        <HomeFlavor />
+        <HomeArtistPage />
       </template>
       <template v-slot:profile>
         <HomeProfile />
@@ -72,6 +63,12 @@ onMounted(() => {
       button {
         background-color: transparent;
         color: #737373;
+        cursor: pointer;
+
+
+        &:hover {
+          color: #42C83C;
+        }
       }
     }
   }

@@ -72,8 +72,8 @@ const gotoSong = (artist) => {
 <template>
   <div class="home-news">
     <div class="news">
-      <div class="news-content" v-for="new_ in listNews" @click="gotoSong(new_.artist)">
-        <img :src="new_.bgUrl" alt="">
+      <div class="news-content" v-for="new_ in listNews">
+        <img :src="new_.bgUrl" alt="" @click="gotoSong(new_.artist)">
         <span><font-awesome-icon icon="fa-solid fa-play" /></span>
         <p>{{ new_.nameSong }}</p>
         <p>{{ new_.artist }}</p>
