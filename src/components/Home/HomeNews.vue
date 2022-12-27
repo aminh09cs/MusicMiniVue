@@ -1,4 +1,7 @@
 <script setup>
+import Song from '../../helper/Song.vue';
+import Song2 from '../../helper/Song2.vue';
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -72,11 +75,12 @@ const gotoSong = (artist) => {
 <template>
   <div class="home-news">
     <div class="news">
-      <div class="news-content" v-for="new_ in listNews">
-        <img :src="new_.bgUrl" alt="" @click="gotoSong(new_.artist)">
-        <span><font-awesome-icon icon="fa-solid fa-play" /></span>
-        <p>{{ new_.nameSong }}</p>
-        <p>{{ new_.artist }}</p>
+      <div class="news-content" v-for="song in listNews">
+        <Song 
+            @click="gotoSong"
+            :song="song"
+            className="song-news"  
+        />
       </div>
     </div>
     <div class="playlists">
@@ -85,19 +89,11 @@ const gotoSong = (artist) => {
         <p>See more</p>
       </div>
       <div class="playlists-content">
-        <div class="playlists-content-song" v-for="song in listSongs">
-          <div class="left">
-            <span class="play"><font-awesome-icon icon="fa-solid fa-play" /></span>
-            <div>
-              <p class="song">{{ song.nameSong }}</p>
-              <p class="artist">{{ song.artist }}</p>
-            </div>
-          </div>
-          <div class="right">
-            <p class="time">{{ song.time }}</p>
-            <span class="flavor"><font-awesome-icon icon="fa-solid fa-heart" /></span>
-          </div>
-        </div>
+          <Song2 
+              v-for="song_ in listSongs"
+              className="song-news"
+              :song_ = "song_"
+          />
       </div>
     </div>
   </div>
@@ -114,42 +110,6 @@ const gotoSong = (artist) => {
     margin-bottom: 35px;
     overflow-x: scroll;
 
-    &-content {
-      position: relative;
-      width: 147px;
-
-      img {
-        margin-bottom: 13px;
-      }
-
-      span {
-        position: absolute;
-        left: 75%;
-        top: 69%;
-        @include button-play();
-
-      }
-
-      p:nth-of-type(1) {
-        margin-left: 5px;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 22px;
-        color: #E1E1E1;
-      }
-
-      p:nth-of-type(2) {
-        margin-left: 5px;
-        font-weight: 400;
-        font-size: 14 px;
-        line-height: 22px;
-        color: #E1E1E1;
-      }
-
-      ::-webkit-scrollbar {
-        display: none;
-      }
-    }
   }
 
   .playlists {
@@ -178,54 +138,9 @@ const gotoSong = (artist) => {
       display: flex;
       flex-direction: column;
       gap: 25px;
-      height: 100px;
+      height: 113px;
       overflow-y: auto;
-
-      &-song {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .left {
-          display: flex;
-          align-items: center;
-          color: #d6d6d6;
-          gap: 33px;
-
-          .play {
-            @include button-play();
-          }
-
-          div {
-            .song {
-              @include styleText(#d6d6d6, 16px, 700);
-              line-height: 22px;
-            }
-
-            .artist {
-              @include styleText(#d6d6d6, 12px, 400);
-              line-height: 16px;
-            }
-          }
-        }
-
-        .right {
-          display: flex;
-          gap: 51px;
-          align-items: center;
-
-          .time {
-            @include styleText(#d6d6d6, 15px, 400);
-            line-height: 20px;
-          }
-
-          .flavor {
-            color: #565656;
-          }
-        }
-      }
     }
-
     ::-webkit-scrollbar {
       display: none;
     }

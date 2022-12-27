@@ -1,4 +1,5 @@
 <script setup>
+import Button from '../helper/Button.vue';
 import StartedMode from './StartedMode.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -50,12 +51,24 @@ const gotoLogin = () => {
           </div>
         </template>
       </StartedMode>
-      <button class="btn-started" @click="onHandleMode" v-if="active">
-        Get Started
-      </button>
-      <button @click="gotoLogin" class="btn-started" v-else>
-        Continue
-      </button>
+      <Button
+            fontSize="20px"
+            width="100%"
+            height="92px"
+            name="Get Started"
+            @click="onHandleMode" 
+            v-if="active"
+      >
+      </Button>
+      <Button
+            fontSize="20px"
+            width="100%"
+            height="92px"
+            name="Continue"
+            @click="gotoLogin" 
+            v-else
+      >
+      </Button>
     </div>
   </section>
 
@@ -94,7 +107,6 @@ const gotoLogin = () => {
 
 .started {
   position: relative;
-  width: 390px;
   height: 890px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -112,7 +124,8 @@ const gotoLogin = () => {
     gap: 20px;
     position: absolute;
     bottom: 0;
-    left: 47px;
+    left: 50%;
+    transform: translate(-50%, 0);
     width: 300px;
     margin-bottom: 69px;
 

@@ -1,5 +1,68 @@
 <script setup>
-import HomeProfileFlavor from './HomeProfileFlavor.vue'
+import Song2 from '../../helper/Song2.vue';
+import { ref } from 'vue';
+const listSongs = ref([
+  {
+    nameSong: 'Bad Guy',
+    artist: 'Billie Eilish',
+    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
+    time: '5:33'
+  },
+  {
+    nameSong: 'Scorpin',
+    artist: 'Drake',
+    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
+    time: '5:33'
+  },
+  {
+    nameSong: 'Bad Guy',
+    artist: 'Billie Eilish',
+    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
+    time: '5:33'
+  },
+  {
+    nameSong: 'Scorpin',
+    artist: 'Drake',
+    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
+    time: '5:33'
+  },
+  {
+    nameSong: 'Bad Guy',
+    artist: 'Billie Eilish',
+    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
+    time: '5:33'
+  },
+  {
+    nameSong: 'Scorpin',
+    artist: 'Drake',
+    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
+    time: '5:33'
+  },
+  {
+    nameSong: 'Bad Guy',
+    artist: 'Billie Eilish',
+    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
+    time: '5:33'
+  },
+  {
+    nameSong: 'Scorpin',
+    artist: 'Drake',
+    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
+    time: '5:33'
+  },
+  {
+    nameSong: 'Bad Guy',
+    artist: 'Billie Eilish',
+    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
+    time: '5:33'
+  },
+  {
+    nameSong: 'Scorpin',
+    artist: 'Drake',
+    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
+    time: '5:33'
+  },
+])
 </script>
 <template>
   <section class="profile-container">
@@ -38,8 +101,16 @@ import HomeProfileFlavor from './HomeProfileFlavor.vue'
           </div>
         </div>
       </header>
+      <div class="profile-title">
+          PUBLIC PLAYLIST
+      </div>
       <div class="profile-content">
-        <HomeProfileFlavor />
+        <Song2
+          v-for="song in listSongs"
+          className="song-profile"
+          :song_ = "song"
+        >
+        </Song2>
       </div>
     </section>
   </section>
@@ -111,9 +182,23 @@ import HomeProfileFlavor from './HomeProfileFlavor.vue'
       }
     }
   }
+  .profile-title{
+    @include styleText(#D6D6D6, 15px, 700);
+    line-height: 20px;
+    margin: 20px 0;
+    margin-left: 30px;
 
+  }
   .profile-content {
     margin: 0 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    height: 451px;
+    overflow-y: auto;
   }
+  ::-webkit-scrollbar {
+      display: none;
+    }
 }
 </style>

@@ -1,6 +1,12 @@
 <script setup>
 import { ref } from 'vue';
+import Input from "../../helper/Input.vue";
+import Button from '../../helper/Button.vue';
 import { useRouter } from 'vue-router';
+
+import { defineProps } from 'vue';
+const props = defineProps(["type", "placeholder"]);
+
 const router = useRouter();
 const gotoSupport = () => {
   router.push({ name: "support" });
@@ -11,6 +17,8 @@ const info = ref({
   email: "",
   password: "",
 })
+
+
 
 const toggleEye = ref(true);
 
@@ -28,6 +36,7 @@ const onSubmit = () => {
   }
   else {
     alert('SUCCESS');
+    console.log(info.value);
     info.value.fullname = "";
     info.value.email = "";
     info.value.password = "";
@@ -45,18 +54,23 @@ const onShowPassword = () => {
     <h1>Register</h1>
     <p>If You Need Any Support <span @click=gotoSupport>Click Here</span></p>
     <form class="form-register-content" @submit.prevent="onSubmit">
-      <input type="text" placeholder="Full Name" v-model="info.fullname" />
-      <input type="text" placeholder="Enter Email" v-model="info.email" />
-      <input type="password" placeholder="Password" v-model="info.password" v-if="toggleEye" class="password" />
-      <input type="text" placeholder="Password" v-model="info.password" v-else class="password" />
+      <Input type="text" placeholder="Full Name"/>
+      <Input type="text" placeholder="Enter Email" />
+      <Input type="password" placeholder="Password" v-if="toggleEye" class="password" />
+      <Input type="text" placeholder="Password" v-else class="password" />
       <div class="eye" @click="onShowPassword">
         <font-awesome-icon icon="fa-solid fa-eye-slash" :icon="{}" v-if="toggleEye" />
         <font-awesome-icon icon="fa-solid fa-eye" v-else />
       </div>
 
       <p>Recovery password</p>
-
-      <button type="submit" class="btn-submit">Register Account</button>
+      <Button
+            fontSize="20px"
+            width="100%"
+            height="80px"
+            name="Register Account"
+      >
+    </Button>
       <div class="form-footer">
         <div></div>
         <p>or</p>
@@ -98,9 +112,6 @@ const onShowPassword = () => {
     gap: 16px;
     position: relative;
 
-    input {
-      @include input-form();
-    }
 
     .eye {
       position: absolute;

@@ -1,34 +1,30 @@
 <script setup>
+import Song from '../../helper/Song.vue';
+import Song2 from '../../helper/Song2.vue';
 import { ref } from 'vue';
 const listAlbums = ref([
   {
     nameAlbum: 'Lililiasas',
-    artist: 'Billie Eilish',
     bgUrl: 'https://i.imgur.com/Lx5OODW.png',
   },
   {
     nameAlbum: 'Happier Than Ever',
-    artist: 'Billie Eilish',
     bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
   },
   {
     nameAlbum: 'Lililiasas',
-    artist: 'Billie Eilish',
     bgUrl: 'https://i.imgur.com/Lx5OODW.png',
   },
   {
     nameAlbum: 'Happier Than Ever',
-    artist: 'Billie Eilish',
     bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
   },
   {
     nameAlbum: 'Lililiasas',
-    artist: 'Billie Eilish',
     bgUrl: 'https://i.imgur.com/Lx5OODW.png',
   },
   {
     nameAlbum: 'Happier Than Ever',
-    artist: 'Billie Eilish',
     bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
   },
 
@@ -65,7 +61,6 @@ const listSongs = ref([
     time: '5:33'
   },
 ])
-
 </script>
 <template>
   <section class="artist">
@@ -88,28 +83,22 @@ const listSongs = ref([
       <div class="artist-profile-inventory-albums">
         <p>Albums</p>
         <div class="albums">
-          <div class="album" v-for="(album, i) in listAlbums" :key="i">
-            <img :src="album.bgUrl" alt="">
-            <p>{{ album.nameAlbum }}</p>
+          <div class="album" v-for="album in listAlbums">
+            <Song 
+                :song="album"
+                className="song-artist"
+            />
           </div>
         </div>
       </div>
       <div class="artist-profile-inventory-songs">
         <p class="title">Songs</p>
         <div class="songs">
-          <div class="song" v-for="song in listSongs">
-            <div class="left">
-              <span class="play"><font-awesome-icon icon="fa-solid fa-play" /></span>
-              <div>
-                <p class="song">{{ song.nameSong }}</p>
-                <p class="artist">{{ song.artist }}</p>
-              </div>
-            </div>
-            <div class="right">
-              <p class="time">{{ song.time }}</p>
-              <span class="flavor"><font-awesome-icon icon="fa-solid fa-heart" /></span>
-            </div>
-          </div>
+            <Song2 
+                v-for="song_ in listSongs"
+                className="song-artist"
+                :song_ = "song_"
+            />
         </div>
       </div>
 
@@ -122,13 +111,12 @@ const listSongs = ref([
 
 .artist {
   &-profile {
-
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: #CFCFCF;
     padding: 35px 20px 181px 20px;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
 
     &-back {
       @include button-back();
@@ -173,19 +161,6 @@ const listSongs = ref([
         gap: 14px;
         margin-bottom: 35px;
         overflow-x: scroll;
-
-        .album {
-          img {
-            width: 140px;
-            height: 135px;
-          }
-
-          p {
-            @include styleText(#d1d1d1, 13PX, 700);
-            margin-top: 18px;
-            margin-left: 15px;
-          }
-        }
       }
 
       ::-webkit-scrollbar {
@@ -199,59 +174,13 @@ const listSongs = ref([
         line-height: 22px;
         margin-bottom: 15px;
       }
-
       .songs {
         display: flex;
         flex-direction: column;
         gap: 20px;
-        height: 100px;
+        height: 71px;
         overflow-y: auto;
-
-        .song {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          .left {
-            display: flex;
-            align-items: center;
-            color: #d6d6d6;
-            gap: 33px;
-
-            .play {
-              @include button-play();
-            }
-
-            div {
-              .song {
-                @include styleText(#d6d6d6, 16px, 700);
-                line-height: 22px;
-              }
-
-              .artist {
-                @include styleText(#d6d6d6, 12px, 400);
-                line-height: 16px;
-              }
-            }
-          }
-
-          .right {
-            display: flex;
-            gap: 51px;
-            align-items: center;
-
-            .time {
-              @include styleText(#d6d6d6, 15px, 400);
-              line-height: 20px;
-            }
-
-            .flavor {
-              color: #565656;
-            }
-          }
-        }
       }
-
       ::-webkit-scrollbar {
         display: none;
       }

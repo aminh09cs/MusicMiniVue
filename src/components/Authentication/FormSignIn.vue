@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue';
+import Input from "../../helper/Input.vue";
+import Button from '../../helper/Button.vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const gotoSupport = () => {
@@ -15,10 +17,11 @@ const toggleEye = ref(true);
 
 //methods
 const onSubmit = () => {
-  console.log("no working");
+  console.log(info.value);
   info.value.name = "";
   info.value.password = "";
-  router.push({ name: 'home' });
+
+  router.push({name: "home"})
 
 }
 const onShowPassword = () => {
@@ -32,17 +35,21 @@ const onShowPassword = () => {
     <h1>Sign In</h1>
     <p>If You Need Any Support <span @click=gotoSupport>Click Here</span></p>
     <form class="form-signup-content" @submit.prevent="onSubmit">
-      <input type="text" placeholder="Enter Username or Email" v-model="info.name" />
-      <input type="password" placeholder="Password" v-model="info.password" v-if="toggleEye" class="password" />
-      <input type="text" placeholder="Password" v-model="info.password" v-else class="password" />
+      <Input type="text" placeholder="Enter Username or Email" />
+      <Input type="password" placeholder="Password" v-if="toggleEye" class="password" />
+      <Input type="text" placeholder="Password" v-else class="password" />
       <div class="eye" @click="onShowPassword">
-        <font-awesome-icon icon="fa-solid fa-eye-slash" :icon="{}" v-if="toggleEye" />
+        <font-awesome-icon icon="fa-solid fa-eye-slash" v-if="toggleEye" />
         <font-awesome-icon icon="fa-solid fa-eye" v-else />
       </div>
-
       <p>Recovery password</p>
-
-      <button type="submit" class="btn-submit">Sign In</button>
+      <Button
+            fontSize="20px"
+            width="100%"
+            height="80px"
+            name="Sign In"
+      >
+      </Button>
       <div class="form-footer">
         <div></div>
         <p>or</p>
@@ -83,10 +90,6 @@ const onShowPassword = () => {
     flex-direction: column;
     gap: 16px;
     position: relative;
-
-    input {
-      @include input-form();
-    }
 
     .eye {
       position: absolute;

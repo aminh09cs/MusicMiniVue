@@ -2,7 +2,7 @@
 </script>
 <template>
   <div>
-    GLOBAL HOME EMPTY
+    DISCOVER HOME EMPTY
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import HomeArtists from './HomeArtists.vue';
-import HomeCommonContent from './HomeCommonContent.vue';
+import HomeTrendInfo from './HomeTrendInfo.vue';
 import HomeNews from './HomeNews.vue';
 import HomePodcast from './HomePodcast.vue';
 import HomeVideo from './HomeVideo.vue';
@@ -46,7 +46,7 @@ const onHandleMode = (_mode) => {
         <button @click="onHandleMode('podcast')">Podcast</button>
       </nav>
       <div class="home-content-content">
-        <HomeCommonContent :mode="mode">
+        <HomeTrendInfo :mode="mode">
           <template v-slot:news>
             <HomeNews />
           </template>
@@ -59,7 +59,7 @@ const onHandleMode = (_mode) => {
           <template v-slot:podcast>
             <HomePodcast />
           </template>
-        </HomeCommonContent>
+        </HomeTrendInfo>
       </div>
     </div>
   </div>
@@ -73,12 +73,15 @@ const onHandleMode = (_mode) => {
   margin: 0 auto;
   padding: 33px 0;
 
+  @media screen and (max-width: 375px) {
+    padding: 33px 15px;
+  }
+
   &-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: #CFCFCF;
-    width: 334px;
     margin-bottom: 20px;
 
     &-search {
@@ -159,11 +162,17 @@ const onHandleMode = (_mode) => {
       overflow-x: scroll;
       margin-bottom: 30px;
 
+
+
       button {
         @include styleText(#616161, 20px, 700);
         line-height: 27px;
         background: transparent;
         display: block;
+
+        @media screen and (max-width: 375px) {
+          font-size: 15px;
+        }
 
         &:after {
           display: block;

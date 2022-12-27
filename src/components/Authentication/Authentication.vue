@@ -1,4 +1,13 @@
 <script setup>
+import Button from '../../helper/Button.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const gotoRegister = () =>{
+  router.push({name: 'register'})
+}
+const gotoSignIn = () =>{
+  router.push({name: 'sign-in'})
+}
 </script>
 <template>
   <section class="auth">
@@ -16,16 +25,26 @@
       <div class="auth-content-bottom">
 
         <div class="re-sign-btn">
-          <button>
-            <router-link :to="{ name: 'register' }">Register</router-link>
-          </button>
-          <button>
-            <router-link :to="{ name: 'sign-in' }">Sign In</router-link>
-          </button>
+          <Button
+            fontSize="20px"
+            width="147px"
+            height="73px"
+            name="Register"
+            @click="gotoRegister" 
+          >
+          </Button>
+          <Button
+            fontSize="20px"
+            width="147px"
+            height="73px"
+            name="Sign In"
+            @click="gotoSignIn" 
+          >
+          </Button>
         </div>
       </div>
     </div>
-    <img src="../../assets/15mag-billie-03-master675-v3 1.png" alt="15-mag" class="img-foot" />
+    <img src="../../assets/15mag-billie-03-master675-v3 1.png" alt="15-mag" class="img-foot" style="width: 100%" />
   </section>
 </template>
 <style scoped lang="scss">
@@ -34,7 +53,6 @@
 .auth {
   position: relative;
 
-  width: 390px;
   height: 844px;
   background-color: #1C1B1B;
   background-repeat: no-repeat;

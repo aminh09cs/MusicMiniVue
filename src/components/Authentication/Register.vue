@@ -34,17 +34,15 @@ const gotoRegister = () => {
 @import '../../helper/mixin';
 
 .register {
-  width: 390px;
   height: 844px;
   background-color: #1C1B1B;
   background-repeat: no-repeat;
 
   &-top {
+    position: relative;
     text-align: center;
     padding: 30px;
-    display: flex;
     align-items: center;
-    gap: 86px;
     margin-bottom: 47px;
 
     >img {
@@ -53,6 +51,10 @@ const gotoRegister = () => {
     }
 
     .btn-back {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      transform: translate(0, -50%);
       @include button-back();
     }
   }

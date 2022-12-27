@@ -3,7 +3,7 @@
     <section class="music">
       <div class="music-header">
         <div class="music-header-search">
-          <img src="../../assets/Vector.png" alt="">
+          <img src="../../assets/Vector.png" alt="" @click="gotoHome">
         </div>
         <div class="music-header-slogan">
           Now playing
@@ -30,28 +30,44 @@
           </div>
         </div>
         <div class="music-song-tool">
-          <span><font-awesome-icon icon="fa-solid fa-repeat" /></span>
-          <span><font-awesome-icon icon="fa-solid fa-backward-step" /></span>
-          <button class="play-pause" @click="intervalTime">
-            <span v-if="play"><font-awesome-icon icon="fa-solid fa-play" /></span>
-            <span v-else><font-awesome-icon icon="fa-solid fa-pause" /></span>
-          </button>
-          <span><font-awesome-icon icon="fa-solid fa-forward-step" /></span>
-          <span><font-awesome-icon icon="fa-solid fa-shuffle" /></span>
-
+          <BarTools :play="play" @progress="intervalTime" />
         </div>
       </div>
+      <div class="lyric-song" v-if="disabledBtnLyrics">
+        <img 
+          src="../../assets/arrow-up.png" 
+          alt="arrow-up" 
+          @click="showLyric"
+        >
+        <p>Lyrics</p>
+      </div>
     </section>
+    <MusicLyric :style="style" />
   </section>
 
 </template>
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import BarTools from '../../helper/BarTools.vue'
+import MusicLyric from '../../components/Music/MusicLyric.vue'
+
+//prop css
+
+const disabledBtnLyrics = ref(true);
+const style = ref({
+  top: '100%',
+  display: 'none',
+})
+
+const router = useRouter();
 const percentage = ref(0);
 const percentage_ = ref(percentage.value + '%');
 const play = ref(true);
 const timeSong = ref(30000); //ms
 //1% chay 0.3s
+
+//methods
 const intervalTime = () => {
   play.value = !play.value;
   const t = setInterval(() => {
@@ -71,9 +87,15 @@ const intervalTime = () => {
     }
   });
 }
-
+const gotoHome = () => {
+  router.push({ name: "home" })
+}
+const showLyric = () => {
+  disabledBtnLyrics.value = false;
+  style.value.top = '0%';
+  style.value.display= 'block';
+}
 </script>
-
 <style lang="scss" scoped>
 @import '../../helper/mixin';
 
@@ -159,31 +181,18 @@ const intervalTime = () => {
           }
         }
       }
-
-      &-tool {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 40px;
-
-        .play-pause {
-          width: 72px;
-          height: 72px;
-          background-color: #42C83C;
-          border-radius: 50%;
-
-          span {
-            color: #ffffff;
-            font-size: 25px;
-          }
-        }
-
-        span {
-          color: #A7A7A7;
-        }
-      }
     }
 
+    .lyric-song {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      margin-top: 45px;
+      text-align: center;
+      @include styleText(#B9B9B9, 14px, 700);
+      line-height: 19px;
+    }
   }
 }
 </style>

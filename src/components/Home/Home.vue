@@ -1,14 +1,14 @@
 <script setup>
 //Link with by slot
 import HomeContent from './HomeContent.vue';
-import HomeCommon from './HomeCommon.vue';
-import HomeGlobal from './HomeGlobal.vue';
+import HomeTrend from './HomeTrend.vue';
+import HomeDiscover from './HomeDiscover.vue';
 import HomeArtistPage from './HomeArtistPage.vue';
 import HomeProfile from './HomeProfile.vue';
 
 import { ref } from 'vue';
 //ref
-const mode = ref("common");
+const mode = ref("trend");
 
 //methods
 
@@ -20,11 +20,11 @@ const onHandleMode = (_mode) => {
 <template>
   <section class="home-container">
     <HomeContent :mode="mode">
-      <template v-slot:common>
-        <HomeCommon />
+      <template v-slot:trend>
+        <HomeTrend />
       </template>
-      <template v-slot:global>
-        <HomeGlobal />
+      <template v-slot:discover>
+        <HomeDiscover />
       </template>
       <template v-slot:flavor>
         <HomeArtistPage />
@@ -35,8 +35,8 @@ const onHandleMode = (_mode) => {
     </HomeContent>
     <footer class="home-footer">
       <div class="home-footer-content">
-        <button @click="onHandleMode('common')"><font-awesome-icon icon="fa-solid fa-square" /></button>
-        <button @click="onHandleMode('global')"> <font-awesome-icon icon="fa-solid fa-compass" /></button>
+        <button @click="onHandleMode('trend')"><font-awesome-icon icon="fa-solid fa-square" /></button>
+        <button @click="onHandleMode('discover')"> <font-awesome-icon icon="fa-solid fa-compass" /></button>
         <button @click="onHandleMode('flavor')"> <font-awesome-icon icon="fa-solid fa-heart" /></button>
         <button @click="onHandleMode('profile')"> <font-awesome-icon icon="fa-solid fa-user" /></button>
       </div>
@@ -46,9 +46,7 @@ const onHandleMode = (_mode) => {
 <style scoped lang="scss">
 @import "../../helper/mixin";
 
-
 .home-container {
-  width: 390px;
   height: 844px;
   background: #1C1B1B;
 
