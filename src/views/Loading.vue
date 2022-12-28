@@ -7,6 +7,7 @@ import { storeToRefs } from 'pinia';
 
 //ref
 const theme = ref({});
+const themeTest = ref({});
 
 //store
 const themeStore = useThemeStore();
@@ -18,12 +19,13 @@ const router = useRouter();
 //methods
 
 const checkTheme = () =>{
-  if(getdefaultTheme.value === 'dark'){
-    theme.value = themeStore.getThemeDark;
-  }
-  else{
-    theme.value = themeStore.getThemeLight;
-  }
+  // if(getdefaultTheme.value === 'dark'){
+  //   theme.value = themeStore.getThemeDark;
+  // }
+  // else{
+  //   theme.value = themeStore.getThemeLight;
+  // }
+  theme.value = themeStore.chooseTheme();
 }
 
 onMounted(() => {

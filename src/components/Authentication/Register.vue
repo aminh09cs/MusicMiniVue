@@ -20,12 +20,7 @@ const gotoRegister = () => {
   router.push({ name: "sign-in" });
 }
 const checkTheme = () =>{
-  if(getdefaultTheme.value === 'dark'){
-    theme.value = themeStore.getThemeDark;
-  }
-  else{
-    theme.value = themeStore.getThemeLight;
-  }
+  theme.value = themeStore.chooseTheme();
 }
 
 onMounted(() => {

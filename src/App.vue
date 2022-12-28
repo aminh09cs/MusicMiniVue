@@ -1,9 +1,12 @@
 <script setup>
+function onEnter(el, done) {
+  done()
+}
 </script>
 
 <template>
   <router-view v-slot="{Component}">
-    <transition name="slide" mode="out-in">
+    <transition name="slide" mode="out-in" @enter="onEnter">
         <component :is="Component"></component>
     </transition>
   </router-view>

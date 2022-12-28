@@ -25,10 +25,11 @@ const gotoLogin = () => {
 
 const switchThemeDark = ()=>{
   themeStore.setTheme('dark');
+  localStorage.setItem("theme", themeStore.theme.defaultTheme.toString());
 }
 const switchThemeLight= ()=>{
-  console.log(themeStore.getThemeLight);
   themeStore.setTheme('light');
+  localStorage.setItem("theme", themeStore.theme.defaultTheme.toString());
 }
 
 </script>

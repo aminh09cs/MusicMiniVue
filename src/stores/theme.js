@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useThemeStore = defineStore("taskStore",{
 state: () =>({
     theme: {
-            defaultTheme: 'dark',
+            defaultTheme: 'light',
             dark: {
                     searchTool: '#d6d6d6',
                     background: '#0c0d0d',
@@ -99,5 +99,17 @@ actions: {
   setTheme(name){
     return this.theme.defaultTheme = name;
   },
+  chooseTheme(){
+    if(localStorage.getItem("theme") === 'dark'){
+      return this.theme.dark;
+    }
+    localStorage.setItem("theme", this.theme.defaultTheme.toString());
+    return this.theme.light;
+    // localStorage.setItem("theme", this.theme.defaultTheme.toString());
+    // if("theme" === 'dark'){
+    //   return this.theme.dark;
+    // }
+    // return this.theme.light;
+  }
 }
 });

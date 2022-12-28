@@ -14,15 +14,7 @@ const router = useRouter()
 
 //methods
 const checkTheme = () =>{
-  if(getdefaultTheme.value === 'dark'){
-    theme.value = themeStore.getThemeDark;
-    console.log(theme.value);
-  }
-  else{
-    theme.value = themeStore.getThemeLight;
-    console.log(theme.value);
-
-  }
+  theme.value = themeStore.chooseTheme();
 }
 const gotoRegister = () =>{
   router.push({name: 'register'})

@@ -22,12 +22,7 @@ const onHandleMode = (_mode) => {
   console.log(mode.value);
 }
 const checkTheme = () =>{
-  if(getdefaultTheme.value === 'dark'){
-    theme.value = themeStore.getThemeDark;
-  }
-  else{
-    theme.value = themeStore.getThemeLight;
-  }
+  theme.value = themeStore.chooseTheme();
 }
 onMounted(() => {
   checkTheme();
