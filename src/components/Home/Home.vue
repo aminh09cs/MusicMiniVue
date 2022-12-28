@@ -1,4 +1,7 @@
 <script setup>
+import { onMounted, ref } from 'vue'
+import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia';
 //Link with by slot
 import HomeContent from './HomeContent.vue';
 import HomeTrend from './HomeTrend.vue';
@@ -6,16 +9,30 @@ import HomeDiscover from './HomeDiscover.vue';
 import HomeArtistPage from './HomeArtistPage.vue';
 import HomeProfile from './HomeProfile.vue';
 
-import { ref } from 'vue';
 //ref
 const mode = ref("trend");
+const theme = ref({});
+
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
 
 //methods
-
 const onHandleMode = (_mode) => {
   mode.value = _mode;
   console.log(mode.value);
 }
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+  }
+}
+onMounted(() => {
+  checkTheme();
+})
 </script>
 <template>
   <section class="home-container">
@@ -48,11 +65,12 @@ const onHandleMode = (_mode) => {
 
 .home-container {
   height: 844px;
-  background: #1C1B1B;
+  background: v-bind('theme.backgroundHome');
 
   .home-footer {
-    background: #343434;
+    background: v-bind('theme.backgroundHomeFooter');
     padding: 16px 40px;
+    border-top: 1px solid #E5DEDE;
 
     &-content {
       display: flex;

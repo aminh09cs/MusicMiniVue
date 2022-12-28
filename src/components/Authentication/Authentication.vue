@@ -1,19 +1,44 @@
 <script setup>
 import Button from '../../helper/Button.vue';
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';import { onMounted, ref } from 'vue'
+import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia';
+
+//ref
+const theme = ref({});
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+
 const router = useRouter()
+
+//methods
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+    console.log(theme.value);
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+    console.log(theme.value);
+
+  }
+}
 const gotoRegister = () =>{
   router.push({name: 'register'})
 }
 const gotoSignIn = () =>{
   router.push({name: 'sign-in'})
 }
+onMounted(() => {
+  checkTheme();
+})
 </script>
 <template>
   <section class="auth">
     <div class="auth-top">
       <div class="btn-back">
-        <router-link :to="{ name: 'started' }"><img src="../../assets/Vector.png" alt=""></router-link>
+        <router-link :to="{ name: 'started' }"><img :src="`${theme.vector}`" alt=""/></router-link>
       </div>
     </div>
     <div class="auth-content">
@@ -38,6 +63,7 @@ const gotoSignIn = () =>{
             width="147px"
             height="73px"
             name="Sign In"
+            :color= theme.authColorSignIn
             @click="gotoSignIn" 
           >
           </Button>
@@ -54,7 +80,7 @@ const gotoSignIn = () =>{
   position: relative;
 
   height: 844px;
-  background-color: #1C1B1B;
+  background-color: v-bind('theme.backgroundAuth');
   background-repeat: no-repeat;
 
   &-top {
@@ -63,6 +89,7 @@ const gotoSignIn = () =>{
       top: 30px;
       left: 30px;
       @include button-back();
+      background: v-bind('theme.backgroundBtnPlay');
     }
   }
 
@@ -84,14 +111,14 @@ const gotoSignIn = () =>{
       }
 
       h1 {
-        @include styleText(#F2F2F2, 26px, 700);
+        @include styleText(v-bind('theme.authColorSlogan'), 26px, 700);
         line-height: 35px;
         text-transform: capitalize;
         margin-bottom: 21px;
       }
 
       p {
-        @include styleText(#A0A0A0, 17px, 400);
+        @include styleText(v-bind('theme.authColorIntro'), 17px, 400);
         line-height: 23px;
       }
     }

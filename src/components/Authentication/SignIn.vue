@@ -1,7 +1,31 @@
 <script setup>
 import FormSignInVue from './FormSignIn.vue';
 import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue'
+import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia';
+
+//ref
+const theme = ref({});
+
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+//router
 const router = useRouter();
+//methods
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+  }
+}
+
+onMounted(() => {
+  checkTheme();
+})
 const gotoRegister = () => {
   router.push({ name: "register" });
 }
@@ -10,7 +34,7 @@ const gotoRegister = () => {
   <div class="signin">
     <div class="signin-top">
       <div class="btn-back">
-        <router-link :to="{ name: 'started' }"><img src="../../assets/Vector.png" alt=""></router-link>
+        <router-link :to="{ name: 'started' }"><img :src="`${theme.vector}`" alt=""/></router-link>
       </div>
       <img src="../../assets/logo-spotify.svg" alt="logo-spotify">
     </div>
@@ -34,7 +58,7 @@ const gotoRegister = () => {
 
 .signin {
   height: 844px;
-  background-color: #1C1B1B;
+  background: v-bind('theme.backgroundSignIn');
   background-repeat: no-repeat;
 
   &-top {
@@ -55,6 +79,7 @@ const gotoRegister = () => {
       left: 10%;
       transform: translate(0, -50%);
       @include button-back();
+      background: v-bind('theme.backgroundBtnPlay');
     }
   }
 
@@ -83,7 +108,7 @@ const gotoRegister = () => {
     }
 
     &-tag {
-      @include styleText(#DBDBDB, 14px, 700);
+      @include styleText(v-bind('theme.signColorSlogan'), 14px, 700);
       line-height: 19px;
       text-align: center;
 

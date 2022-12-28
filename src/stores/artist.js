@@ -1,1 +1,0 @@
-// Click any button to open artist page and its data  

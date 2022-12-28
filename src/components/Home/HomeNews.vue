@@ -2,7 +2,11 @@
 import Song from '../../helper/Song.vue';
 import Song2 from '../../helper/Song2.vue';
 
-import { ref } from 'vue';
+
+import {useThemeStore} from '../../stores/theme';
+import { storeToRefs } from 'pinia';
+
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -62,15 +66,33 @@ const listSongs = ref([
     time: '5:33'
   },
 ])
+const theme = ref({});
 
 
-//method
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+
+//methods
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+  }
+}
+
 const gotoSong = (artist) => {
   router.push({
     name: 'music',
     params: { id: artist }
   });
 }
+
+onMounted(() => {
+  checkTheme();
+})
 </script>
 <template>
   <div class="home-news">
@@ -123,14 +145,14 @@ const gotoSong = (artist) => {
         font-weight: 700;
         font-size: 20px;
         line-height: 27px;
-        color: #DBDBDB;
+        color: v-bind('theme.colorPlayListTitle');
       }
 
       p:nth-of-type(2) {
         font-weight: 400;
         font-size: 12px;
         line-height: 16px;
-        color: #C6C6C6;
+        color: v-bind('theme.colorPlayListTitle');
       }
     }
 

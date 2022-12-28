@@ -1,18 +1,46 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
+import {useThemeStore} from '../stores/theme'
+import { storeToRefs } from 'pinia';
 
+
+//ref
+const theme = ref({});
+
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+//router
 const router = useRouter();
 
-//It's not necessary inside onMounted
+
+//methods
+
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+  }
+}
+
 onMounted(() => {
   setTimeout(() => {
     router.push({ name: 'started' })
   }, 4000)
+  checkTheme();
 })
+
+
+
 </script>
 <template>
-  <section class="loading">
+  <section 
+    class="loading"    
+    :class="getdefaultTheme"
+  >
     <img src="../assets/logo-spotify.svg" alt="logo-spotify" class="loading-img" />
   </section>
 
@@ -20,9 +48,9 @@ onMounted(() => {
 <style scoped lang="scss">
 .loading {
   position: relative;
-  background: #0D0C0C;
   width: 100%;
   height: 100vh;
+  background: v-bind('theme.background');
 
   .loading-img {
     position: absolute;

@@ -6,12 +6,12 @@
 </template>
 <script setup>
 import { defineProps } from 'vue';
-const props = defineProps(["type", "placeholder"]);
+const props = defineProps(["type", "placeholder", "border"]);
 </script>
 <style scoped lang="scss">
 input{
   padding: 29px;
-  border: 1px solid #414141;
+  border: 1px solid v-bind('border');
   background: transparent;
   color: white;
   border-radius: 30px;

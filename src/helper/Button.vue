@@ -3,7 +3,8 @@
     :style="{
         fontSize:fontSize,
         width: width,
-        height: height
+        height: height,
+        color: color
     }"
 >
     {{ name }}
@@ -14,7 +15,8 @@ const props = defineProps([
     "fontSize",
     "width",
     "height",
-    "name"
+    "name",
+    "color"
 ]);
 </script>
 <style lang="scss" scoped>

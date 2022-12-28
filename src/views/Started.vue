@@ -1,9 +1,13 @@
 <script setup>
 import Button from '../helper/Button.vue';
 import StartedMode from './StartedMode.vue';
+import {useThemeStore} from '../stores/theme'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
+
+//store
+const themeStore = useThemeStore();
 //refs
 const mode = ref("started");
 const active = ref(true);
@@ -17,6 +21,14 @@ const onHandleMode = () => {
 }
 const gotoLogin = () => {
   router.push({ name: "login" });
+}
+
+const switchThemeDark = ()=>{
+  themeStore.setTheme('dark');
+}
+const switchThemeLight= ()=>{
+  console.log(themeStore.getThemeLight);
+  themeStore.setTheme('light');
 }
 
 </script>
@@ -35,13 +47,13 @@ const gotoLogin = () => {
         <template v-slot:continue>
           <h1 class="title">Choose Mode</h1>
           <div class="sun-moon">
-            <div class="sun-moon-item">
+            <div class="sun-moon-item" @click="switchThemeDark">
               <figure>
                 <img src="../assets/moon.png" alt="moon">
               </figure>
               <p>Dark Mode</p>
             </div>
-            <div class="sun-moon-item">
+            <div class="sun-moon-item" @click="switchThemeLight">
               <figure>
                 <img src="../assets/sun.png" alt="sun">
               </figure>

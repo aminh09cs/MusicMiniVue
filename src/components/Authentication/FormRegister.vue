@@ -1,28 +1,41 @@
 <script setup>
-import { ref } from 'vue';
 import Input from "../../helper/Input.vue";
 import Button from '../../helper/Button.vue';
 import { useRouter } from 'vue-router';
-
+import { onMounted, ref } from 'vue'
+import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia';
 import { defineProps } from 'vue';
-const props = defineProps(["type", "placeholder"]);
-
-const router = useRouter();
-const gotoSupport = () => {
-  router.push({ name: "support" });
-}
-
+//ref
 const info = ref({
   fullname: "",
   email: "",
   password: "",
 })
-
-
-
+const theme = ref({});
 const toggleEye = ref(true);
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+//router
+const router = useRouter();
+
+//props
+const props = defineProps(["type", "placeholder"]);
 
 //methods
+const gotoSupport = () => {
+  router.push({ name: "support" });
+}
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+  }
+}
+
 const validateEmail = (email) => {
   let regex = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
   return regex.test(email)
@@ -47,6 +60,10 @@ const onShowPassword = () => {
   //document.querySelector(".password-eye").type = "text";
   toggleEye.value = !toggleEye.value;
 }
+onMounted(() => {
+  checkTheme();
+})
+
 </script>
 
 <template>
@@ -54,21 +71,20 @@ const onShowPassword = () => {
     <h1>Register</h1>
     <p>If You Need Any Support <span @click=gotoSupport>Click Here</span></p>
     <form class="form-register-content" @submit.prevent="onSubmit">
-      <Input type="text" placeholder="Full Name"/>
-      <Input type="text" placeholder="Enter Email" />
-      <Input type="password" placeholder="Password" v-if="toggleEye" class="password" />
-      <Input type="text" placeholder="Password" v-else class="password" />
+      <Input type="text" placeholder="Full Name" :border="theme.resColorBorder"/>
+      <Input type="text" placeholder="Enter Email" :border="theme.resColorBorder"/>
+      <Input type="password" placeholder="Password" v-if="toggleEye" class="password" :border="theme.resColorBorder"/>
+      <Input type="text" placeholder="Password" v-else class="password" :border="theme.resColorBorder"/>
       <div class="eye" @click="onShowPassword">
         <font-awesome-icon icon="fa-solid fa-eye-slash" :icon="{}" v-if="toggleEye" />
         <font-awesome-icon icon="fa-solid fa-eye" v-else />
       </div>
 
-      <p>Recovery password</p>
       <Button
             fontSize="20px"
             width="100%"
             height="80px"
-            name="Register Account"
+            name="Create Account"
       >
     </Button>
       <div class="form-footer">
@@ -93,12 +109,12 @@ const onShowPassword = () => {
   gap: 20px;
 
   h1 {
-    @include styleText(#F2F2F2, 30px, 700);
+    @include styleText(v-bind('theme.resColorTitle'), 30px, 700);
     line-height: 41px;
   }
 
   p {
-    @include styleText(#E1E1E1, 12px, 400);
+    @include styleText(v-bind('theme.resColorSupport'), 12px, 400);
 
     span {
       cursor: pointer;
@@ -116,7 +132,7 @@ const onShowPassword = () => {
     .eye {
       position: absolute;
       right: 20px;
-      top: 51%;
+      top: 55%;
       color: #5B5B5B;
       cursor: pointer;
 

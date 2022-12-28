@@ -1,3 +1,37 @@
+<script setup>
+import { onMounted, ref, defineProps } from 'vue';
+import {useThemeStore} from '../stores/theme';
+import { storeToRefs } from 'pinia';
+const props = defineProps(["song_", "className"])
+
+//refs
+const convertedData = ref({
+  name: props.song_.nameSong,
+  artist: props.song_.artist,
+  time: props.song_.time,
+  bgUrl: props.song_.bgUrl || ""
+})
+const theme = ref({});
+
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+
+//methods
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+  }
+}
+onMounted(() => {
+  checkTheme();
+})
+
+</script>
+
 <template>
 <section class="song" :class="className">
     <div class="left">
@@ -16,16 +50,6 @@
     </div>
 </section>
 </template>
-<script setup>
-import { defineProps, ref } from 'vue';
-const props = defineProps(["song_", "className"])
-const convertedData = ref({
-  name: props.song_.nameSong,
-  artist: props.song_.artist,
-  time: props.song_.time,
-  bgUrl: props.song_.bgUrl || ""
-})
-</script>
 
 <style scoped lang="scss">
 @import "./mixin";
@@ -39,6 +63,8 @@ const convertedData = ref({
           gap: 33px;
           .play {
             @include button-play();
+            color: v-bind('theme.colorPlayList2');
+            background: v-bind('theme.colorPlayList3');
           }
           img{
             width: 58px;
@@ -46,11 +72,11 @@ const convertedData = ref({
           }
           div {
             .name {
-              @include styleText(#d6d6d6, 16px, 700);
+              @include styleText(v-bind('theme.colorPlayList1'), 16px, 700);
               line-height: 22px;
             }
             .artist {
-              @include styleText(#d6d6d6, 12px, 400);
+              @include styleText(v-bind('theme.colorPlayList1'), 12px, 400);
               line-height: 16px;
             }
           }
@@ -61,7 +87,7 @@ const convertedData = ref({
           align-items: center;
 
           .time {
-            @include styleText(#d6d6d6, 15px, 400);
+            @include styleText(v-bind('theme.colorPlayList1'), 15px, 400);
             line-height: 20px;
           }
 

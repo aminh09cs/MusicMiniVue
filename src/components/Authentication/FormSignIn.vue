@@ -1,21 +1,39 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Input from "../../helper/Input.vue";
 import Button from '../../helper/Button.vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
-const gotoSupport = () => {
-  router.push({ name: "support" });
-}
+import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia';
 
+//ref
 const info = ref({
   name: "",
   password: "",
 })
-
 const toggleEye = ref(true);
+const theme = ref({});
+
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+
+//router
+const router = useRouter();
 
 //methods
+const gotoSupport = () => {
+  router.push({ name: "support" });
+}
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+  }
+}
+
 const onSubmit = () => {
   console.log(info.value);
   info.value.name = "";
@@ -28,6 +46,9 @@ const onShowPassword = () => {
   //document.querySelector(".password-eye").type = "text";
   toggleEye.value = !toggleEye.value;
 }
+onMounted(() => {
+  checkTheme();
+})
 </script>
 
 <template>
@@ -35,9 +56,9 @@ const onShowPassword = () => {
     <h1>Sign In</h1>
     <p>If You Need Any Support <span @click=gotoSupport>Click Here</span></p>
     <form class="form-signup-content" @submit.prevent="onSubmit">
-      <Input type="text" placeholder="Enter Username or Email" />
-      <Input type="password" placeholder="Password" v-if="toggleEye" class="password" />
-      <Input type="text" placeholder="Password" v-else class="password" />
+      <Input type="text" placeholder="Enter Username or Email" :border="theme.signColorBorder"/>
+      <Input type="password" placeholder="Password" v-if="toggleEye" class="password" :border="theme.signColorBorder"/>
+      <Input type="text" placeholder="Password" v-else class="password" :border="theme.signColorBorder"/>
       <div class="eye" @click="onShowPassword">
         <font-awesome-icon icon="fa-solid fa-eye-slash" v-if="toggleEye" />
         <font-awesome-icon icon="fa-solid fa-eye" v-else />
@@ -72,12 +93,12 @@ const onShowPassword = () => {
   gap: 20px;
 
   h1 {
-    @include styleText(#F2F2F2, 30px, 700);
+    @include styleText(v-bind('theme.signColorTitle'), 30px, 700);
     line-height: 41px;
   }
 
   p {
-    @include styleText(#E1E1E1, 12px, 400);
+    @include styleText(v-bind('theme.signColorSupport'), 12px, 400);
 
     span {
       cursor: pointer;

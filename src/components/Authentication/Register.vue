@@ -1,17 +1,43 @@
 <script setup>
 import FormRegisterVue from './FormRegister.vue';
 import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue'
+import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia';
+
+//ref
+const theme = ref({});
+
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+//router
 const router = useRouter();
+
+
+//methods
 const gotoRegister = () => {
   router.push({ name: "sign-in" });
 }
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+  }
+}
+
+onMounted(() => {
+  checkTheme();
+})
 </script>
 
 <template>
   <div class="register">
     <div class="register-top">
       <div class="btn-back">
-        <router-link :to="{ name: 'started' }"><img src="../../assets/Vector.png" alt=""></router-link>
+        <router-link :to="{ name: 'started' }"><img :src="`${theme.vector}`" alt=""/></router-link>
       </div>
       <img src="../../assets/logo-spotify.svg" alt="logo-spotify">
     </div>
@@ -21,7 +47,7 @@ const gotoRegister = () => {
     <div class="register-footer">
       <figure class="register-footer-logo">
         <img src="../../assets/google.png" alt="google-img">
-        <img src="../../assets/apple.png" alt="apple-img">
+        <img :src="`${theme.resImgApple}`" alt="apple-img">
       </figure>
       <div class="register-footer-tag">
         <p>Do You Have An Account ? <span @click="gotoRegister">Sign In</span></p>
@@ -35,7 +61,7 @@ const gotoRegister = () => {
 
 .register {
   height: 844px;
-  background-color: #1C1B1B;
+  background: v-bind('theme.backgroundRegister');
   background-repeat: no-repeat;
 
   &-top {
@@ -56,6 +82,7 @@ const gotoRegister = () => {
       left: 10%;
       transform: translate(0, -50%);
       @include button-back();
+      background: v-bind('theme.backgroundBtnPlay');
     }
   }
 
@@ -84,7 +111,7 @@ const gotoRegister = () => {
     }
 
     &-tag {
-      @include styleText(#DBDBDB, 14px, 700);
+      @include styleText(v-bind('theme.resColorSlogan'), 14px, 700);
       line-height: 19px;
       text-align: center;
 

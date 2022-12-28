@@ -1,18 +1,37 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue'
+import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia';
 import HomeArtists from './HomeArtists.vue';
 import HomeTrendInfo from './HomeTrendInfo.vue';
 import HomeNews from './HomeNews.vue';
 import HomePodcast from './HomePodcast.vue';
 import HomeVideo from './HomeVideo.vue';
 
+//ref
 const mode = ref("news");
+const theme = ref({});
+
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
 
 //methods
 const onHandleMode = (_mode) => {
   mode.value = _mode;
   console.log(mode.value);
 }
+const checkTheme = () =>{
+  if(getdefaultTheme.value === 'dark'){
+    theme.value = themeStore.getThemeDark;
+  }
+  else{
+    theme.value = themeStore.getThemeLight;
+  }
+}
+onMounted(() => {
+  checkTheme();
+})
 
 </script>
 <template>
@@ -87,6 +106,7 @@ const onHandleMode = (_mode) => {
     &-search {
       font-size: 24px;
       cursor: pointer;
+      color: v-bind('theme.searchTool');
     }
 
     &-logo {
@@ -100,7 +120,8 @@ const onHandleMode = (_mode) => {
     &-tool {
       font-size: 24px;
       cursor: pointer;
-      ;
+      color: v-bind('theme.searchTool');
+
     }
   }
 
@@ -161,17 +182,16 @@ const onHandleMode = (_mode) => {
       gap: 47px;
       overflow-x: scroll;
       margin-bottom: 30px;
-
-
-
       button {
-        @include styleText(#616161, 20px, 700);
+        @include styleText(v-bind('theme.color1'), 20px, 700);
         line-height: 27px;
         background: transparent;
         display: block;
-
         @media screen and (max-width: 375px) {
           font-size: 15px;
+        }
+        &:focus{
+         color: v-bind('theme.color1Active'); 
         }
 
         &:after {
