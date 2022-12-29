@@ -15,6 +15,9 @@ state: () =>({
                     authColorIntro: '#A0A0A0',
                     authColorSignIn: '#D7D7D7',
 
+                    //started:
+                    backgroundColorStarted: 'black',
+
                     //register
                     backgroundRegister: '#1C1B1B',
                     resColorSlogan: '#DBDBDB',
@@ -45,6 +48,18 @@ state: () =>({
                     colorPlayList3: '#2C2C2C',
                     colorPlayListTitle: '#DBDBDB',
 
+                    //artist-page
+                    colorNameArtist: '#E3E3E3',
+                    colorAlbum: '#D3D3D3',
+                    colorSlogan: '#A7A7A7',
+
+                    //profile
+                    colorProfile: '#E6E6E6',
+                    colorGmail: '#D8D4D4',
+                    colorFollow: '#FFFFFF',
+                    colorPlayList: '#D6D6D6',
+                    backgroundHeader: 'rgba(255, 255, 255, 0.04);'
+
                 },
             light:{
                     searchTool: '#000000',
@@ -56,6 +71,9 @@ state: () =>({
                     authColorSlogan: '#383838',
                     authColorIntro: '#797979',
                     authColorSignIn: '#313131',
+
+                    //started:
+                    backgroundColorStarted: 'white',
 
                     //register
                     backgroundRegister: '#F2F2F2',
@@ -85,6 +103,18 @@ state: () =>({
                     colorPlayList2: '#555555',
                     colorPlayList3: '#E6E6E6',
                     colorPlayListTitle: '#131313',
+
+                    ////artist-page
+                    colorNameArtist: '#222222',
+                    colorAlbum: '#393939',
+                    colorSlogan: '#838383',
+
+                    //profile
+                    colorProfile: '#383838',
+                    colorGmail: '#222222',
+                    colorFollow: '#222222',
+                    colorPlayList: '#222222',
+                    backgroundHeader: '#FFFFFF'
                 }
             }
 }),

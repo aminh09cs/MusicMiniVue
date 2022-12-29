@@ -16,7 +16,6 @@ const theme = ref({});
 
 //store
 const themeStore = useThemeStore();
-const { getdefaultTheme } = storeToRefs(themeStore);
 
 //router
 const router = useRouter();
@@ -34,7 +33,7 @@ const onSubmit = () => {
   info.value.name = "";
   info.value.password = "";
 
-  router.push({name: "home"})
+  //router.push({name: "home"})
 
 }
 const onShowPassword = () => {
@@ -50,10 +49,30 @@ onMounted(() => {
   <div class="form-signup">
     <h1>Sign In</h1>
     <p>If You Need Any Support <span @click=gotoSupport>Click Here</span></p>
-    <form class="form-signup-content" @submit.prevent="onSubmit">
-      <Input type="text" placeholder="Enter Username or Email" :border="theme.signColorBorder"/>
-      <Input type="password" placeholder="Password" v-if="toggleEye" class="password" :border="theme.signColorBorder"/>
-      <Input type="text" placeholder="Password" v-else class="password" :border="theme.signColorBorder"/>
+    <div class="form-signup-content" >
+      <Input 
+          type="text" 
+          placeholder="Enter Username or Email" 
+          :border="theme.signColorBorder"
+          v-model="info.name"
+
+      />
+      <Input 
+          :type="toggleEye ? 'password' : 'text'" 
+          placeholder="Password" 
+          class="password" 
+          :border="theme.signColorBorder"
+          v-model="info.password"
+
+      />
+      <!-- <Input 
+          type="text" 
+          placeholder="Password" 
+          v-else 
+          class="password" 
+          :border="theme.signColorBorder"
+          :v-model="info.password"
+      /> -->
       <div class="eye" @click="onShowPassword">
         <font-awesome-icon icon="fa-solid fa-eye-slash" v-if="toggleEye" />
         <font-awesome-icon icon="fa-solid fa-eye" v-else />
@@ -64,6 +83,7 @@ onMounted(() => {
             width="100%"
             height="80px"
             name="Sign In"
+            @click="onSubmit"
       >
       </Button>
       <div class="form-footer">
@@ -71,7 +91,7 @@ onMounted(() => {
         <p>or</p>
         <div></div>
       </div>
-    </form>
+    </div>
   </div>
 
 </template>

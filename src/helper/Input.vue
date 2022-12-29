@@ -2,11 +2,14 @@
 <input 
   :type="type" 
   :placeholder="placeholder" 
+  v-model="data"
 />
 </template>
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
 const props = defineProps(["type", "placeholder", "border"]);
+
+const data = ref('');
 </script>
 <style scoped lang="scss">
 input{

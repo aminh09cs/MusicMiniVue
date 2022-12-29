@@ -1,7 +1,12 @@
 <script setup>
 import Song from '../../helper/Song.vue';
 import Song2 from '../../helper/Song2.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue'
+import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia';
+
+//refs
+const theme = ref({});
 const listAlbums = ref([
   {
     nameAlbum: 'Lililiasas',
@@ -61,6 +66,18 @@ const listSongs = ref([
     time: '5:33'
   },
 ])
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+
+//methods
+const checkTheme = () =>{
+  theme.value = themeStore.chooseTheme();
+}
+
+onMounted(() => {
+  checkTheme();
+})
 </script>
 <template>
   <section class="artist">
@@ -130,17 +147,17 @@ const listSongs = ref([
     margin: 10px 60px;
 
     .name {
-      @include styleText(#E3E3E3, 20px, 700);
+      @include styleText(v-bind('theme.colorNameArtist'), 20px, 700);
       line-height: 27px
     }
 
     .albums {
-      @include styleText(#D3D3D3, 13px, 400);
+      @include styleText(v-bind('theme.colorAlbum'), 13px, 400);
       line-height: 18px;
     }
 
     .des {
-      @include styleText(#A7A7A7, 12px, 400);
+      @include styleText(v-bind('theme.colorSlogan'), 12px, 400);
       line-height: 16px;
     }
   }
@@ -150,7 +167,7 @@ const listSongs = ref([
 
     &-albums {
       p {
-        @include styleText(#DDDDDD, 16px, 700);
+        @include styleText(v-bind('theme.colorNameArtist'), 16px, 700);
         line-height: 22px;
         margin-bottom: 15px;
       }
@@ -170,7 +187,7 @@ const listSongs = ref([
 
     &-songs {
       .title {
-        @include styleText(#DDDDDD, 16px, 700);
+        @include styleText(v-bind('theme.colorNameArtist'), 16px, 700);
         line-height: 22px;
         margin-bottom: 15px;
       }

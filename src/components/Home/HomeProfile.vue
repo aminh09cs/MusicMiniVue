@@ -1,6 +1,10 @@
 <script setup>
 import Song2 from '../../helper/Song2.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue'
+import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia';
+//refs
+const theme = ref({});
 const listSongs = ref([
   {
     nameSong: 'Bad Guy',
@@ -63,6 +67,18 @@ const listSongs = ref([
     time: '5:33'
   },
 ])
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+
+//methods
+const checkTheme = () =>{
+  theme.value = themeStore.chooseTheme();
+}
+
+onMounted(() => {
+  checkTheme();
+})
 </script>
 <template>
   <section class="profile-container">
@@ -70,7 +86,7 @@ const listSongs = ref([
       <header class="profile-header">
         <div class="profile-header-top">
           <div class="profile-header-top-back">
-            <img src="../../assets/Vector.png" alt="">
+            <img :src="`${theme.vector}`" alt="">
           </div>
           <div class="profile-header-top-slogan">
             Profile
@@ -125,7 +141,7 @@ const listSongs = ref([
 
     .profile-header {
       border-radius: 30px;
-      background-color: #A2A2A2;
+      background: v-bind('theme.backgroundHeader');
 
       &-top {
         display: flex;
@@ -136,12 +152,15 @@ const listSongs = ref([
 
         &-back {
           @include button-back();
-          background: rgba(255, 255, 255, 0.04);
+          background: v-bind('theme.backgroundBtnPlay');
         }
 
         &-slogan {
-          @include styleText(#DDDDDD, 18px, 700);
+          @include styleText(v-bind('theme.colorProfile'), 18px, 700);
           line-height: 24px;
+        }
+        &-tool{
+          color: v-bind('theme.searchTool');
         }
       }
 
@@ -151,9 +170,10 @@ const listSongs = ref([
         gap: 10px;
         align-items: center;
         text-align: center;
+        padding-bottom: 10px;
 
         &-mail {
-          @include styleText(#D8D4D4, 12px, 400);
+          @include styleText(v-bind('theme.colorGmail'), 12px, 400);
           line-height: 16px;
         }
 
@@ -169,12 +189,12 @@ const listSongs = ref([
 
           div {
             p:nth-of-type(1) {
-              @include styleText(#FFFFFF, 20px, 700);
+              @include styleText(v-bind('theme.colorFollow'), 20px, 700);
               line-height: 27px;
             }
 
             p:nth-of-type(2) {
-              @include styleText(#A2A2A2, 14px, 400);
+              @include styleText(v-bind('theme.colorFollow'), 14px, 400);
               line-height: 19px;
             }
           }
@@ -183,7 +203,7 @@ const listSongs = ref([
     }
   }
   .profile-title{
-    @include styleText(#D6D6D6, 15px, 700);
+    @include styleText(v-bind('theme.colorPlayList'), 15px, 700);
     line-height: 20px;
     margin: 20px 0;
     margin-left: 30px;
@@ -194,7 +214,7 @@ const listSongs = ref([
     display: flex;
     flex-direction: column;
     gap: 25px;
-    height: 451px;
+    height: 442px;
     overflow-y: auto;
   }
   ::-webkit-scrollbar {

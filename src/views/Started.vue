@@ -1,22 +1,31 @@
 <script setup>
 import Button from '../helper/Button.vue';
 import StartedMode from './StartedMode.vue';
+import { onMounted, ref } from 'vue';
 import {useThemeStore} from '../stores/theme'
-import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 
-//store
-const themeStore = useThemeStore();
 //refs
 const mode = ref("started");
 const active = ref(true);
-const bgUrl = ref('https://i.imgur.com/eqKM8EF.jpg')
+const theme = ref({});
+
+//store
+const themeStore = useThemeStore();
+const { getdefaultTheme } = storeToRefs(themeStore);
+
+//router
+const router = useRouter();
+
 //methods
+const checkTheme = () =>{
+  theme.value = themeStore.chooseTheme();
+}
+
 const onHandleMode = () => {
   mode.value = 'continue';
   active.value = false;
-  bgUrl.value = 'https://i.imgur.com/xqnKSyV.jpg';
 
 }
 const gotoLogin = () => {
@@ -26,15 +35,21 @@ const gotoLogin = () => {
 const switchThemeDark = ()=>{
   themeStore.setTheme('dark');
   localStorage.setItem("theme", themeStore.theme.defaultTheme.toString());
+  checkTheme();
 }
 const switchThemeLight= ()=>{
   themeStore.setTheme('light');
   localStorage.setItem("theme", themeStore.theme.defaultTheme.toString());
+  checkTheme();
 }
+
+onMounted(()=>{
+  checkTheme();
+})
 
 </script>
 <template>
-  <section class="started" :style="{ backgroundImage: `url(${bgUrl})` }">
+  <section class="started" :style="{ backgroundImage: `url(https://i.imgur.com/Kf5LQNB.png)` }">
     <img src="../assets/logo-spotify.svg" alt="logo-spotify" class="started-img" />
     <div class="started-footer">
       <StartedMode :mode="mode">
@@ -103,11 +118,12 @@ const switchThemeLight= ()=>{
       background: rgba(255, 255, 255, 0.01);
       backdrop-filter: blur(43.5px);
       border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.01);
 
       transition: all .5s;
 
       &:hover {
-        background-color: #f100ff;
+        border: 2px solid #42C83C;
       }
     }
 
@@ -123,6 +139,7 @@ const switchThemeLight= ()=>{
   height: 890px;
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: v-bind('theme.backgroundColorStarted');
 
   .started-img {
     position: absolute;

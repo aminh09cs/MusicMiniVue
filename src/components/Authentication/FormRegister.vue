@@ -41,15 +41,15 @@ const validatePassword = (password) => {
 const onSubmit = () => {
   if (!validateEmail(info.value.email) || !validatePassword(info.value.password)) {
     alert('YOUR GMAIL OR YOUR PASSWORD IS FAILED');
+    console.log(info.value);
   }
   else {
     alert('SUCCESS');
     console.log(info.value);
+  }
     info.value.fullname = "";
     info.value.email = "";
     info.value.password = "";
-  }
-
 }
 const onShowPassword = () => {
   //document.querySelector(".password-eye").type = "text";
@@ -66,10 +66,25 @@ onMounted(() => {
     <h1>Register</h1>
     <p>If You Need Any Support <span @click=gotoSupport>Click Here</span></p>
     <form class="form-register-content" @submit.prevent="onSubmit">
-      <Input type="text" placeholder="Full Name" :border="theme.resColorBorder"/>
-      <Input type="text" placeholder="Enter Email" :border="theme.resColorBorder"/>
-      <Input type="password" placeholder="Password" v-if="toggleEye" class="password" :border="theme.resColorBorder"/>
-      <Input type="text" placeholder="Password" v-else class="password" :border="theme.resColorBorder"/>
+      <Input 
+          type="text" 
+          placeholder="Full Name" 
+          :border="theme.resColorBorder"
+          v-model="info.fullname"
+      />
+      <Input 
+          type="text" 
+          placeholder="Enter Email" 
+          :border="theme.resColorBorder"
+          v-model="info.email"
+      />
+      <Input 
+          :type="toggleEye ? 'password' : 'text'" 
+          placeholder="Password" 
+          class="password" 
+          :border="theme.resColorBorder"
+          v-model="info.password"
+      />
       <div class="eye" @click="onShowPassword">
         <font-awesome-icon icon="fa-solid fa-eye-slash" :icon="{}" v-if="toggleEye" />
         <font-awesome-icon icon="fa-solid fa-eye" v-else />

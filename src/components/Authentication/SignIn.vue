@@ -10,7 +10,6 @@ const theme = ref({});
 
 //store
 const themeStore = useThemeStore();
-const { getdefaultTheme } = storeToRefs(themeStore);
 //router
 const router = useRouter();
 //methods
