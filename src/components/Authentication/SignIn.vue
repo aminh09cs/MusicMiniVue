@@ -3,10 +3,11 @@ import FormSignInVue from './FormSignIn.vue';
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue'
 import {useThemeStore} from '../../stores/theme'
-import { storeToRefs } from 'pinia';
+import jwt_decode from 'jwt-decode'
 
 //ref
 const theme = ref({});
+const user = ref({});
 
 //store
 const themeStore = useThemeStore();
@@ -17,8 +18,29 @@ const checkTheme = () =>{
     theme.value = themeStore.chooseTheme();
 }
 
+const googleAuth = () =>{
+  google.accounts.id.initialize({
+    client_id: "968490405760-65ht5ej1smvtgqqrdja9jdapnhoo20bi.apps.googleusercontent.com",
+    callback: handleCallbackResponse
+  })
+  google.accounts.id.renderButton(
+    document.getElementById("signInDiv"), 
+    {theme: "outline", size: "large"}
+  )
+}
+const handleCallbackResponse = (response) => {
+  console.log("encoded jwt if token", response.credential);
+  let userObject = jwt_decode(response.credential);
+  user.value = userObject;
+  console.log(userObject);
+  if(user){
+    router.push({name: "home"});
+  }
+}
 onMounted(() => {
   checkTheme();
+  //global 
+  googleAuth();
 })
 const gotoRegister = () => {
   router.push({ name: "register" });
@@ -39,6 +61,8 @@ const gotoRegister = () => {
       <figure class="signin-footer-logo">
         <img src="../../assets/google.png" alt="google-img">
         <img src="../../assets/apple.png" alt="apple-img">
+        <div id="signInDiv">
+        </div>
       </figure>
       <div class="signin-footer-tag">
         <p>Not A Member ? <span @click="gotoRegister">Register Now</span></p>

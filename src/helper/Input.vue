@@ -2,21 +2,20 @@
 <input 
   :type="type" 
   :placeholder="placeholder" 
-  v-model="data"
+  :value="modelValue"
+  @input="$emit('update:modelValue', $event.target.value)"
 />
 </template>
 <script setup>
-import { defineProps, ref } from 'vue';
-const props = defineProps(["type", "placeholder", "border"]);
-
-const data = ref('');
+defineProps(["type", "placeholder", "border", "modelValue"]);
+defineEmits(['update:modelValue']);
 </script>
 <style scoped lang="scss">
 input{
   padding: 29px;
   border: 1px solid v-bind('border');
   background: transparent;
-  color: white;
+  color: rgb(240, 86, 112);
   border-radius: 30px;
   font-size: 16px;
   font-weight: 700;

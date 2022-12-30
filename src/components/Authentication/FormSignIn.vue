@@ -4,9 +4,8 @@ import Input from "../../helper/Input.vue";
 import Button from '../../helper/Button.vue';
 import { useRouter } from 'vue-router';
 import {useThemeStore} from '../../stores/theme'
-import { storeToRefs } from 'pinia';
 
-//ref
+//refs
 const info = ref({
   name: "",
   password: "",
@@ -32,7 +31,6 @@ const onSubmit = () => {
   console.log(info.value);
   info.value.name = "";
   info.value.password = "";
-
   //router.push({name: "home"})
 
 }
@@ -43,6 +41,7 @@ const onShowPassword = () => {
 onMounted(() => {
   checkTheme();
 })
+
 </script>
 
 <template>
@@ -55,7 +54,6 @@ onMounted(() => {
           placeholder="Enter Username or Email" 
           :border="theme.signColorBorder"
           v-model="info.name"
-
       />
       <Input 
           :type="toggleEye ? 'password' : 'text'" 
@@ -63,16 +61,8 @@ onMounted(() => {
           class="password" 
           :border="theme.signColorBorder"
           v-model="info.password"
-
       />
-      <!-- <Input 
-          type="text" 
-          placeholder="Password" 
-          v-else 
-          class="password" 
-          :border="theme.signColorBorder"
-          :v-model="info.password"
-      /> -->
+      
       <div class="eye" @click="onShowPassword">
         <font-awesome-icon icon="fa-solid fa-eye-slash" v-if="toggleEye" />
         <font-awesome-icon icon="fa-solid fa-eye" v-else />

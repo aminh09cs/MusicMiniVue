@@ -11,6 +11,24 @@
 </button>
 </template>
 <script setup>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import {useThemeStore} from '../stores/theme'
+//refs
+const theme = ref({});
+
+//store
+const themeStore = useThemeStore();
+
+//methods
+const checkTheme = () =>{
+  theme.value = themeStore.chooseTheme();
+}
+
+onMounted(() => {
+  checkTheme();
+})
+
 const props = defineProps([
     "fontSize",
     "width",
@@ -28,7 +46,7 @@ button{
   background-color: #42C83C;
   border: 2px solid #42C83C;
   border-radius: 30px;
-  color: #F6F6F6;
+  color: v-bind('theme.signColorTitle');
   font-weight: 700;
   font-size: 20px; //
 
