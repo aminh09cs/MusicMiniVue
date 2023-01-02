@@ -119,14 +119,11 @@ onMounted(()=>{
       backdrop-filter: blur(43.5px);
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.01);
-
       transition: all .5s;
-
       &:hover {
         border: 2px solid #42C83C;
       }
     }
-
     p {
       @include styleText(#DADADA, 17px, 700);
       line-height: 23px;

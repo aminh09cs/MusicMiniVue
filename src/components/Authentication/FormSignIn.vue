@@ -28,11 +28,14 @@ const checkTheme = () =>{
 }
 
 const onSubmit = () => {
-  console.log(info.value);
+   
+  //check user login and bind ?? it into window
+  if(info.value.name != "" && info.value.password != ""){
+      window.user = info;
+  router.push({name: "home"})
+  }
   info.value.name = "";
   info.value.password = "";
-  //router.push({name: "home"})
-
 }
 const onShowPassword = () => {
   //document.querySelector(".password-eye").type = "text";
