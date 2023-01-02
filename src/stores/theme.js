@@ -133,13 +133,7 @@ actions: {
     if(localStorage.getItem("theme") === 'dark'){
       return this.theme.dark;
     }
-    localStorage.setItem("theme", this.theme.defaultTheme.toString());
     return this.theme.light;
-    // localStorage.setItem("theme", this.theme.defaultTheme.toString());
-    // if("theme" === 'dark'){
-    //   return this.theme.dark;
-    // }
-    // return this.theme.light;
   }
 }
 });

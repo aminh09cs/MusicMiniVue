@@ -31,8 +31,9 @@ const onSubmit = () => {
    
   //check user login and bind ?? it into window
   if(info.value.name != "" && info.value.password != ""){
-      window.user = info;
-  router.push({name: "home"})
+      window.user = info.value;
+      localStorage.setItem('user', info.value);
+      router.push({name: "home"})
   }
   info.value.name = "";
   info.value.password = "";

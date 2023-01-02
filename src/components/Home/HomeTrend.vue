@@ -1,12 +1,13 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router';
 import {useThemeStore} from '../../stores/theme'
-import { storeToRefs } from 'pinia';
 import HomeArtists from './HomeArtists.vue';
 import HomeTrendInfo from './HomeTrendInfo.vue';
 import HomeNews from './HomeNews.vue';
 import HomePodcast from './HomePodcast.vue';
 import HomeVideo from './HomeVideo.vue';
+import router from '../../router/router';
 
 //ref
 const mode = ref("news");
@@ -14,12 +15,16 @@ const theme = ref({});
 
 //store
 const themeStore = useThemeStore();
-const { getdefaultTheme } = storeToRefs(themeStore);
 
 //methods
 const onHandleMode = (_mode) => {
   mode.value = _mode;
   console.log(mode.value);
+}
+const gotoSignIn = () =>{
+  window.user = null; 
+  localStorage.setItem('user', null);
+  router.push({name: 'sign-in'});
 }
 const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
@@ -38,8 +43,8 @@ onMounted(() => {
       <div class="home-header-logo">
         <img src="../../assets/logo-spotify.svg" alt="logo-spotify">
       </div>
-      <div class="home-header-tool">
-        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+      <div class="home-header-tool" @click="gotoSignIn" style="cursor: pointer;">
+        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"/>
       </div>
     </header>
     <div class="home-banner">

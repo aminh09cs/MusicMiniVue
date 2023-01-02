@@ -15,14 +15,13 @@ const theme = ref({});
 
 //store
 const themeStore = useThemeStore();
-const { getdefaultTheme } = storeToRefs(themeStore);
 
 //methods
 const onHandleMode = (_mode) => {
   mode.value = _mode;
   console.log(mode.value);
 }
-const checkTheme = () =>{
+const checkTheme = () => {
     theme.value = themeStore.chooseTheme();
 }
 onMounted(() => {

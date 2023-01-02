@@ -22,7 +22,7 @@ const router = createRouter({
   ]
 })
 router.beforeEach((to, from) =>{
-  if(to.meta.requiresAuth && !window.user){
+  if(to.meta.requiresAuth && !window.user && localStorage.getItem("user") === 'null'){
     return {name: 'sign-in'}
   }
 })

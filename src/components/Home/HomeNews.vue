@@ -71,7 +71,6 @@ const theme = ref({});
 
 //store
 const themeStore = useThemeStore();
-const { getdefaultTheme } = storeToRefs(themeStore);
 
 //methods
 const checkTheme = () =>{
