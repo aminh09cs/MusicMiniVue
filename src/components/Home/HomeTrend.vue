@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave } from 'vue-router';
 import {useThemeStore} from '../../stores/theme'
 import HomeArtists from './HomeArtists.vue';
 import HomeTrendInfo from './HomeTrendInfo.vue';
@@ -22,13 +23,19 @@ const onHandleMode = (_mode) => {
   console.log(mode.value);
 }
 const gotoSignIn = () =>{
-  window.user = null; 
-  localStorage.setItem('user', null);
-  router.push({name: 'sign-in'});
+    window.user = null; 
+    localStorage.setItem('user', null);
+    router.push({name: 'sign-in', query:{logout:null}});
 }
 const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
 }
+onBeforeRouteLeave((to, from) =>{
+    const answer = window.confirm(
+      'Are you want logout?'
+      )
+    if(!answer) return false;
+  })
 onMounted(() => {
   checkTheme();
 })

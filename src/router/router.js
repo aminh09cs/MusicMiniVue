@@ -6,7 +6,14 @@ const router = createRouter({
     { path: '/', name: 'loading', component: () => import('../views/Loading.vue') },
     { path: '/started', name: 'started', component: () => import('../views/Started.vue') },
     { path: '/authentication', name: 'login', component: () => import('../components/Authentication/Authentication.vue') },
-    { path: '/authentication/signin', name: 'sign-in', component: () => import('../components/Authentication/SignIn.vue') },
+    { 
+      path: '/authentication/signin', 
+      name: 'sign-in', 
+      component: () => import('../components/Authentication/SignIn.vue'),
+      meta:{
+        requiresHome: true,
+      }
+    },
     { path: '/authentication/register', name: 'register', component: () => import('../components/Authentication/Register.vue') },
     { path: '/support', name: 'support', component: () => import('../views/Support.vue') },
     { 
@@ -17,13 +24,16 @@ const router = createRouter({
         requiresAuth: true,
       }
     },
-    { path: '/music-song/:id', name: 'music', component: () => import('../components/Music/Music.vue')},
+    { path: '/music-song/:id(\\d+)', name: 'music', component: () => import('../components/Music/Music.vue')},
 
   ]
 })
 router.beforeEach((to, from) =>{
   if(to.meta.requiresAuth && !window.user && localStorage.getItem("user") === 'null'){
-    return {name: 'sign-in'}
+    return {name: 'sign-in', query:{redirect: to.fullPath}}
+  }
+  if(to.meta.requiresHome && localStorage.getItem("user") !== 'null'){
+    return {name: 'home', query:{redirect: to.fullPath}}
   }
 })
 export default router

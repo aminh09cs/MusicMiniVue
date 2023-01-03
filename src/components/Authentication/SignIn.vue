@@ -1,6 +1,6 @@
 <script setup>
 import FormSignInVue from './FormSignIn.vue';
-import { useRouter } from 'vue-router';
+import { useRouter} from 'vue-router';
 import { onMounted, ref } from 'vue'
 import {useThemeStore} from '../../stores/theme'
 import jwt_decode from 'jwt-decode'
@@ -25,14 +25,16 @@ const googleAuth = () =>{
   })
   google.accounts.id.renderButton(
     document.getElementById("signInDiv"), 
-    {theme: "outline", size: "large"}
-  )
+    { theme: "outline", size: "large", type:"icon", shape:"circle" }
+    )
+    
 }
 const handleCallbackResponse = (response) => {
   console.log("encoded jwt if token", response.credential);
   let userObject = jwt_decode(response.credential);
-  user.value = userObject;
-  console.log(userObject);
+  user.value = userObject;  
+  window.user = user.value;
+  localStorage.setItem('user', user.value);
   if(user){
     router.push({name: "home"});
   }
@@ -59,10 +61,9 @@ const gotoRegister = () => {
     </div>
     <div class="signin-footer">
       <figure class="signin-footer-logo">
-        <img src="../../assets/google.png" alt="google-img">
         <img src="../../assets/apple.png" alt="apple-img">
-        <div id="signInDiv">
-        </div>
+    <div id="signInDiv">
+    </div>
       </figure>
       <div class="signin-footer-tag">
         <p>Not A Member ? <span @click="gotoRegister">Register Now</span></p>
