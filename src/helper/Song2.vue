@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref, defineProps } from 'vue';
 import {useThemeStore} from '../stores/theme';
-import { storeToRefs } from 'pinia';
 const props = defineProps(["song_", "className"])
 
 //refs
@@ -15,7 +14,6 @@ const theme = ref({});
 
 //store
 const themeStore = useThemeStore();
-const { getdefaultTheme } = storeToRefs(themeStore);
 
 //methods
 const checkTheme = () =>{
@@ -35,7 +33,7 @@ onMounted(() => {
         </span>
         <img :src="convertedData.bgUrl" class="bg"/>
         <div>
-            <p class="name">{{ convertedData.name }}</p>
+            <div class="name"><p>{{ convertedData.name }}</p></div>
             <p class="artist">{{ convertedData.artist }}</p>
         </div>
     </div>
@@ -66,9 +64,19 @@ onMounted(() => {
             height: 56px;
           }
           div {
-            .name {
-              @include styleText(v-bind('theme.colorPlayList1'), 16px, 700);
-              line-height: 22px;
+            .name{
+                white-space: nowrap;
+                overflow: hidden;
+                width: 147px;
+                p{
+                    @include styleText(v-bind('theme.colorSong'), 16px, 700);
+                    overflow: hidden;
+                    line-height: 22px;
+                    display: inline-block;
+                }
+                p:hover{
+                    animation: move 3s;
+                }
             }
             .artist {
               @include styleText(v-bind('theme.colorPlayList1'), 12px, 400);
@@ -108,5 +116,10 @@ onMounted(() => {
   .bg{
     display: none;
   }
+}
+
+@keyframes move {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
 }
 </style>

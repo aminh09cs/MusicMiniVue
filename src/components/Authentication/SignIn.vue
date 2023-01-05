@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue'
 import {useThemeStore} from '../../stores/theme'
 import jwt_decode from 'jwt-decode'
 
+const CLIENT_ID = "968490405760-65ht5ej1smvtgqqrdja9jdapnhoo20bi.apps.googleusercontent.com";
 //ref
 const theme = ref({});
 const user = ref({});
@@ -20,12 +21,12 @@ const checkTheme = () =>{
 
 const googleAuth = () =>{
   google.accounts.id.initialize({
-    client_id: "968490405760-65ht5ej1smvtgqqrdja9jdapnhoo20bi.apps.googleusercontent.com",
+    client_id: CLIENT_ID,
     callback: handleCallbackResponse
   })
   google.accounts.id.renderButton(
     document.getElementById("signInDiv"), 
-    { theme: "outline", size: "large", type:"icon", shape:"circle" }
+      { theme: "outline", size: "large", type:"icon", shape:"circle" }
     )
     
 }
@@ -36,13 +37,25 @@ const handleCallbackResponse = (response) => {
   window.user = user.value;
   localStorage.setItem('user', user.value);
   if(user){
-    router.push({name: "home"});
+    tokenClient.requestAccessToken();
   }
 }
+
+const tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: "profile email",
+    callback: (tokenResponse) => {
+        setTimeout(
+            () => (window.location.href = "http://localhost:8888/login"),
+            2000,
+        );
+    },
+});
 onMounted(() => {
   checkTheme();
   //global 
   googleAuth();
+  
 })
 const gotoRegister = () => {
   router.push({ name: "register" });

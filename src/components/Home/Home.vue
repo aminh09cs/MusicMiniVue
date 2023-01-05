@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, onMounted, ref } from 'vue'
 import {useThemeStore} from '../../stores/theme'
-import { storeToRefs } from 'pinia';
+import {useSpotifyStore} from '../../stores/dataSpotify'
+import { useRoute } from 'vue-router';
 //Link with by slot
 import HomeContent from './HomeContent.vue';
 import HomeTrend from './HomeTrend.vue';
@@ -9,12 +10,16 @@ import HomeDiscover from './HomeDiscover.vue';
 import HomeArtistPage from './HomeArtistPage.vue';
 import HomeProfile from './HomeProfile.vue';
 
+const id_default = ref("0TnOYISbd1XYRBk9myaseg");
 //ref
 const mode = ref("trend");
 const theme = ref({});
 
+//router
+
 //store
 const themeStore = useThemeStore();
+const spotifyStore = useSpotifyStore();
 
 //methods
 const onHandleMode = (_mode) => {
@@ -24,7 +29,40 @@ const onHandleMode = (_mode) => {
 const checkTheme = () => {
     theme.value = themeStore.chooseTheme();
 }
+const saveToken = async() =>{
+  const lc_access_token = localStorage.getItem('access_token');
+  const lc_refresh_token = localStorage.getItem('refresh_token');
+  const lc_createAt = localStorage.getItem('createAt');
+
+  const url = await window.location.search;
+  const access_token = new URLSearchParams(url).get("access_token");
+  const refresh_token = new URLSearchParams(url).get("refresh_token");
+  const createAt = new URLSearchParams(url).get("createAt");
+  if(access_token !== 'null'){
+    localStorage.setItem('access_token', access_token);
+    //localStorage.setItem('createAt', createAt);
+    if(refresh_token !== 'null'){
+      localStorage.setItem('refresh_token', refresh_token);
+      await spotifyStore.getRandomTrackData();
+      await spotifyStore.getArtist(id_default.value);
+    }
+    else{
+       window.location.href = `http://localhost:5173/refresh_token?refresh_token=${lc_refresh_token}`;
+    }
+  }
+  else{
+    window.location.href = `http://localhost:5173/refresh_token?refresh_token=${lc_refresh_token}`;
+    await spotifyStore.getRandomTrackData();
+    await spotifyStore.getArtist(id_default.value);
+  }
+}
+
+// onBeforeMount(async ()=>{
+//   await spotifyStore.getRandomTrackData();
+//   await spotifyStore.getArtist(id_default.value);
+// })
 onMounted(() => {
+  saveToken();
   checkTheme();
 })
 </script>
@@ -32,7 +70,8 @@ onMounted(() => {
   <section class="home-container">
     <HomeContent :mode="mode">
       <template v-slot:trend>
-        <HomeTrend />
+        <HomeTrend 
+        />
       </template>
       <template v-slot:discover>
         <HomeDiscover />

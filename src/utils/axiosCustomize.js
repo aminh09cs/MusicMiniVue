@@ -1,9 +1,11 @@
 import axios from "axios";
 const instance = axios.create({    //request
-  baseURL: 'https://spotify23.p.rapidapi.com/',
+  baseURL: 'https://api.spotify.com/v1',
   headers: {
-    'X-RapidAPI-Key': '22cbd34868mshff4d6a7f888b148p178177jsndf4e99645f53',
-    'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+    
   }
 });
 //add request interceptor

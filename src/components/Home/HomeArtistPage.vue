@@ -1,86 +1,46 @@
 <script setup>
 import Song from '../../helper/Song.vue';
 import Song2 from '../../helper/Song2.vue';
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, onMounted, ref } from 'vue'
 import {useThemeStore} from '../../stores/theme'
-import { storeToRefs } from 'pinia';
+import { useSpotifyStore } from '../../stores/dataSpotify';
 
 //refs
 const theme = ref({});
-const listAlbums = ref([
-  {
-    nameAlbum: 'Lililiasas',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-  },
-  {
-    nameAlbum: 'Happier Than Ever',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-  },
-  {
-    nameAlbum: 'Lililiasas',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-  },
-  {
-    nameAlbum: 'Happier Than Ever',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-  },
-  {
-    nameAlbum: 'Lililiasas',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-  },
-  {
-    nameAlbum: 'Happier Than Ever',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-  },
-
-])
-const listSongs = ref([
-  {
-    nameSong: 'As It Was',
-    artist: 'Harry Styles',
-    time: '5:33'
-  },
-  {
-    nameSong: 'God Did',
-    artist: 'DJ Khaled',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Talking to Moon',
-    artist: 'Bruno Mars',
-    time: '5:33'
-  },
-  {
-    nameSong: 'As It Was',
-    artist: 'Harry Styles',
-    time: '5:33'
-  },
-  {
-    nameSong: 'God Did',
-    artist: 'DJ Khaled',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Talking to Moon',
-    artist: 'Bruno Mars',
-    time: '5:33'
-  },
-])
+const artist_info = ref({});
+const artist_albums = ref([]);
+const artist_tracks= ref([]);
 //store
 const themeStore = useThemeStore();
-
+const spotifyStore = useSpotifyStore();
 //methods
 const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
 }
-
-onMounted(() => {
+onBeforeMount(()=>{
+  artist_info.value = spotifyStore.getArtistInfo;
+  console.log("tracks",spotifyStore.getArtistAlbums);
+  spotifyStore.getArtistAlbums.items?.forEach((item)=>{
+    artist_albums.value.push({
+      nameAlbum: item.name,
+      bgUrl: item.images[1].url,
+    })
+  })
+  spotifyStore.getArtistTopTracks.tracks?.forEach((item)=>{
+    artist_tracks.value.push({
+      nameSong: item.name,
+      artist: item.artists[0].name,
+      time: '5:33'
+    })
+  })
+})
+onMounted(()=>{
   checkTheme();
 })
 </script>
 <template>
   <section class="artist">
-    <div class="artist-profile" :style="{ backgroundImage: `url(${`https://i.imgur.com/kvZzEn4.png`})` }">
+    <div class="artist-profile" :style="{ backgroundImage: `url(${artist_info.images[0].url})`, backgroundSize:'cover', height: '240px'}">
       <div class="artist-profile-back">
         <img src="../../assets/Vector.png" alt="">
       </div>
@@ -89,8 +49,8 @@ onMounted(() => {
       </div>
     </div>
     <div class="artist-profile-info">
-      <p class="name">Billie Eilish</p>
-      <p class="albums">2 Album, 67 Track</p>
+      <p class="name">{{artist_info.name}}</p>
+      <p class="albums">{{artist_albums.length}} Album, {{artist_tracks.length}} Track</p>
       <p class="des">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis adipiscing vestibulum orci enim, nascetur vitae
       </p>
@@ -99,7 +59,7 @@ onMounted(() => {
       <div class="artist-profile-inventory-albums">
         <p>Albums</p>
         <div class="albums">
-          <div class="album" v-for="album in listAlbums">
+          <div class="album" v-for="album in artist_albums">
             <Song 
                 :song="album"
                 className="song-artist"
@@ -111,7 +71,7 @@ onMounted(() => {
         <p class="title">Songs</p>
         <div class="songs">
             <Song2 
-                v-for="song_ in listSongs"
+                v-for="song_ in artist_tracks"
                 className="song-artist"
                 :song_ = "song_"
             />
@@ -194,7 +154,7 @@ onMounted(() => {
         display: flex;
         flex-direction: column;
         gap: 20px;
-        height: 71px;
+        height: 50px;
         overflow-y: auto;
       }
       ::-webkit-scrollbar {

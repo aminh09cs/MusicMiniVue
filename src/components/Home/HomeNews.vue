@@ -2,75 +2,22 @@
 import Song from '../../helper/Song.vue';
 import Song2 from '../../helper/Song2.vue';
 
-
 import {useThemeStore} from '../../stores/theme';
-import { storeToRefs } from 'pinia';
+import {useSpotifyStore} from '../../stores/dataSpotify'
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeMount, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 //refs
-const listNews = ref([
-  {
-    nameSong: 'Bad Guy',
-    artist: 'Billie Eilish',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-  },
-  {
-    nameSong: 'Scorpin',
-    artist: 'Drake',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-  },
-  {
-    nameSong: 'Bad Guy',
-    artist: 'Billie Eilish',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-  },
-  {
-    nameSong: 'Scorpin',
-    artist: 'Drake',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-  },
-
-])
-const listSongs = ref([
-  {
-    nameSong: 'As It Was',
-    artist: 'Harry Styles',
-    time: '5:33'
-  },
-  {
-    nameSong: 'God Did',
-    artist: 'DJ Khaled',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Talking to Moon',
-    artist: 'Bruno Mars',
-    time: '5:33'
-  },
-  {
-    nameSong: 'As It Was',
-    artist: 'Harry Styles',
-    time: '5:33'
-  },
-  {
-    nameSong: 'God Did',
-    artist: 'DJ Khaled',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Talking to Moon',
-    artist: 'Bruno Mars',
-    time: '5:33'
-  },
-])
+const dataNews = ref([]);
+const dataNewSongs = ref([]);
 const theme = ref({});
-
 
 //store
 const themeStore = useThemeStore();
+const spotifyStore = useSpotifyStore();
+
 
 //methods
 const checkTheme = () =>{
@@ -83,7 +30,36 @@ const gotoSong = (artist) => {
     params: { id: artist }
   });
 }
-
+const getDataSearch = () =>{
+  spotifyStore.getRandomTrackDataG?.tracks?.items.forEach((item)=>{
+    dataNews.value.push(
+      {
+        nameSong: item.name,
+        artist: item.artists[0].name,
+        bgUrl: item.album.images[0].url,
+      })
+    dataNewSongs.value.push(
+      {
+        nameSong: item.name,
+        artist: item.artists[0].name,
+        time: convertMinutes(item.duration_ms),
+      })
+  });
+}
+const convertMinutes = (mili) => {
+  let minutes = Math.floor(mili / 60000);
+  let seconds = (mili/1000 - minutes * 60).toFixed(0);
+  if(seconds === '60'){
+    return `${minutes+1}:00`;
+  }
+  return `${minutes}:${seconds<10?"0":""}${seconds}`
+}
+onBeforeMount(()=>{
+  watchEffect(()=>{
+    spotifyStore.getRandomTrackDataG,
+    getDataSearch();
+  })
+})
 onMounted(() => {
   checkTheme();
 })
@@ -91,7 +67,7 @@ onMounted(() => {
 <template>
   <div class="home-news">
     <div class="news">
-      <div class="news-content" v-for="song in listNews">
+      <div class="news-content" v-for="song in dataNews">
         <Song 
             @click="gotoSong"
             :song="song"
@@ -106,7 +82,7 @@ onMounted(() => {
       </div>
       <div class="playlists-content">
           <Song2 
-              v-for="song_ in listSongs"
+              v-for="song_ in dataNewSongs"
               className="song-news"
               :song_ = "song_"
           />

@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref, defineProps } from 'vue';
 import {useThemeStore} from '../stores/theme';
-import { storeToRefs } from 'pinia';
 const props = defineProps(["song", "className"]);
 
 //refs
@@ -14,7 +13,6 @@ const theme = ref({});
 
 //store
 const themeStore = useThemeStore();
-const { getdefaultTheme } = storeToRefs(themeStore);
 
 //methods
 const checkTheme = () =>{
@@ -30,20 +28,30 @@ onMounted(() => {
     class="song" 
     :class="className"
 >
-    <img :src="convertedData.bgUrl">
-    <p>{{ convertedData.name }}</p>
-    <p>{{ convertedData.artist }}</p>
+    <img :src="convertedData.bgUrl" :style="{width:'147px', height:'185px', overflow:'hidden'}">
+    <div class="name"><p>{{ convertedData.name }}</p></div>
+    <p class="artist">{{ convertedData.artist }}</p>
 </section>
 </template>
 
 <style scoped lang="scss">
 @import "./mixin";
 .song{
-    p:nth-of-type(1){
-        @include styleText(v-bind('theme.colorSong'), 16px, 700);
-        line-height: 22px;
+    .name{
+        white-space: nowrap;
+        overflow: hidden;
+        width: 147px;
+        p{
+            @include styleText(v-bind('theme.colorSong'), 16px, 700);
+            overflow: hidden;
+            line-height: 22px;
+            display: inline-block;
+        }
+        p:hover{
+            animation: move 3s;
+        }
     }
-    p:nth-of-type(2){
+    p.artist{
         @include styleText(v-bind('theme.colorSong'), 14px, 400);
         line-height: 22px;
     }
@@ -53,5 +61,9 @@ onMounted(() => {
         text-align: center;
         margin-top: 18px;
     }
+}
+@keyframes move {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
 }
 </style>

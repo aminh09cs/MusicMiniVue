@@ -3,12 +3,15 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
 import { onBeforeRouteLeave } from 'vue-router';
 import {useThemeStore} from '../../stores/theme'
+import { storeToRefs } from 'pinia'
 import HomeArtists from './HomeArtists.vue';
 import HomeTrendInfo from './HomeTrendInfo.vue';
 import HomeNews from './HomeNews.vue';
 import HomePodcast from './HomePodcast.vue';
 import HomeVideo from './HomeVideo.vue';
 import router from '../../router/router';
+
+//props
 
 //ref
 const mode = ref("news");
@@ -25,6 +28,7 @@ const onHandleMode = (_mode) => {
 const gotoSignIn = () =>{
     window.user = null; 
     localStorage.setItem('user', null);
+    localStorage.setItem('access_token', null);
     router.push({name: 'sign-in', query:{logout:null}});
 }
 const checkTheme = () =>{

@@ -2,7 +2,6 @@
 import Song2 from '../../helper/Song2.vue';
 import { onMounted, ref } from 'vue'
 import {useThemeStore} from '../../stores/theme'
-import { storeToRefs } from 'pinia';
 //refs
 const theme = ref({});
 const listSongs = ref([
@@ -69,13 +68,11 @@ const listSongs = ref([
 ])
 //store
 const themeStore = useThemeStore();
-const { getdefaultTheme } = storeToRefs(themeStore);
 
 //methods
 const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
 }
-
 onMounted(() => {
   checkTheme();
 })
