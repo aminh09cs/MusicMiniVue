@@ -23,7 +23,8 @@ instance.interceptors.response.use(function (response) {
   return response && response.data ? response : alert('Error');
 },
   function (error) {
-    return error?.response?.response || alert('defaultValue at Interceptor');
+    //|| alert('defaultValue at Interceptor');
+    return error?.response?.response;
   });
 // optional chaining
 

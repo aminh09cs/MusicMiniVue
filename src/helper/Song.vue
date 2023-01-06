@@ -1,22 +1,32 @@
 <script setup>
-import { onMounted, ref, defineProps } from 'vue';
+import { onMounted, ref, defineProps, inject} from 'vue';
 import {useThemeStore} from '../stores/theme';
+import {useSpotifyStore} from '../stores/dataSpotify'
+//provide-inject
+const { updateMode } = inject('mode');
 const props = defineProps(["song", "className"]);
+
 
 //refs
 const convertedData = ref({
     bgUrl: props.song.bgUrl,
     name: props.song.nameAlbum || props.song.nameSong,
-    artist: props.song.artist || ""
+    artist: props.song.artist || "",
+    idArtist: props.song.idArtist
 })
 const theme = ref({});
 
 //store
 const themeStore = useThemeStore();
+const spotifyStore = useSpotifyStore();
 
 //methods
 const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
+}
+const gotoArtistPage = async (id) =>{
+    await spotifyStore.getArtist(id);
+    updateMode();
 }
 onMounted(() => {
   checkTheme();
@@ -30,13 +40,14 @@ onMounted(() => {
 >
     <img :src="convertedData.bgUrl" :style="{width:'147px', height:'185px', overflow:'hidden'}">
     <div class="name"><p>{{ convertedData.name }}</p></div>
-    <p class="artist">{{ convertedData.artist }}</p>
+    <p class="artist" @click="gotoArtistPage(convertedData.idArtist)">{{ convertedData.artist }}</p>
 </section>
 </template>
 
 <style scoped lang="scss">
 @import "./mixin";
 .song{
+    cursor: pointer;
     .name{
         white-space: nowrap;
         overflow: hidden;

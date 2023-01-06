@@ -24,12 +24,12 @@ const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
 }
 
-const gotoSong = (artist) => {
-  router.push({
-    name: 'music',
-    params: { id: artist }
-  });
-}
+// const gotoSong = (artist) => {
+//   router.push({
+//     name: 'music',
+//     params: { id: artist }
+//   });
+// }
 const getDataSearch = () =>{
   spotifyStore.getRandomTrackDataG?.tracks?.items.forEach((item)=>{
     dataNews.value.push(
@@ -37,12 +37,14 @@ const getDataSearch = () =>{
         nameSong: item.name,
         artist: item.artists[0].name,
         bgUrl: item.album.images[0].url,
+        idArtist:item.artists[0].id
       })
     dataNewSongs.value.push(
       {
         nameSong: item.name,
         artist: item.artists[0].name,
         time: convertMinutes(item.duration_ms),
+        idArtist:item.artists[0].id
       })
   });
 }
@@ -69,7 +71,6 @@ onMounted(() => {
     <div class="news">
       <div class="news-content" v-for="song in dataNews">
         <Song 
-            @click="gotoSong"
             :song="song"
             className="song-news"  
         />

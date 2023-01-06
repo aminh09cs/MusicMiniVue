@@ -19,7 +19,6 @@ const checkTheme = () =>{
 }
 onBeforeMount(()=>{
   artist_info.value = spotifyStore.getArtistInfo;
-  console.log("tracks",spotifyStore.getArtistAlbums);
   spotifyStore.getArtistAlbums.items?.forEach((item)=>{
     artist_albums.value.push({
       nameAlbum: item.name,

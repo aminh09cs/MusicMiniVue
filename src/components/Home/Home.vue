@@ -1,5 +1,6 @@
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue'
+import mitt from 'mitt';
+import { provide, onBeforeMount, onMounted, ref, watchEffect } from 'vue'
 import {useThemeStore} from '../../stores/theme'
 import {useSpotifyStore} from '../../stores/dataSpotify'
 import { useRoute } from 'vue-router';
@@ -9,11 +10,17 @@ import HomeTrend from './HomeTrend.vue';
 import HomeDiscover from './HomeDiscover.vue';
 import HomeArtistPage from './HomeArtistPage.vue';
 import HomeProfile from './HomeProfile.vue';
-
-const id_default = ref("0TnOYISbd1XYRBk9myaseg");
 //ref
 const mode = ref("trend");
 const theme = ref({});
+
+//provide-inject
+const updateMode = () =>{
+  mode.value = "flavor";
+}
+provide('mode',{updateMode});
+const id_default = ref("0TnOYISbd1XYRBk9myaseg");
+
 
 //router
 
@@ -23,8 +30,7 @@ const spotifyStore = useSpotifyStore();
 
 //methods
 const onHandleMode = (_mode) => {
-  mode.value = _mode;
-  console.log(mode.value);
+  mode.value = _mode
 }
 const checkTheme = () => {
     theme.value = themeStore.chooseTheme();

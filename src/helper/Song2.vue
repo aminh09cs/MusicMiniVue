@@ -1,23 +1,33 @@
 <script setup>
-import { onMounted, ref, defineProps } from 'vue';
+import { onMounted, ref, defineProps, inject } from 'vue';
 import {useThemeStore} from '../stores/theme';
+import {useSpotifyStore} from '../stores/dataSpotify'
+//provide-inject
+const { updateMode } = inject('mode');
 const props = defineProps(["song_", "className"])
-
 //refs
 const convertedData = ref({
   name: props.song_.nameSong,
   artist: props.song_.artist,
   time: props.song_.time,
-  bgUrl: props.song_.bgUrl || ""
+  bgUrl: props.song_.bgUrl || "",
+  idArtist: props.song_.idArtist
 })
 const theme = ref({});
 
 //store
 const themeStore = useThemeStore();
+const spotifyStore = useSpotifyStore();
+
 
 //methods
 const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
+}
+const gotoArtistPage = async (id) =>{
+    await spotifyStore.getArtist(id);
+    console.log(id);
+    updateMode();
 }
 onMounted(() => {
   checkTheme();
@@ -33,7 +43,7 @@ onMounted(() => {
         </span>
         <img :src="convertedData.bgUrl" class="bg"/>
         <div>
-            <div class="name"><p>{{ convertedData.name }}</p></div>
+            <div class="name" @click="gotoArtistPage(convertedData.idArtist)"><p>{{ convertedData.name }}</p></div>
             <p class="artist">{{ convertedData.artist }}</p>
         </div>
     </div>
@@ -64,6 +74,7 @@ onMounted(() => {
             height: 56px;
           }
           div {
+            cursor: pointer;
             .name{
                 white-space: nowrap;
                 overflow: hidden;
