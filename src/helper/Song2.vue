@@ -1,7 +1,10 @@
 <script setup>
 import { onMounted, ref, defineProps, inject } from 'vue';
+import { useRouter } from 'vue-router';
 import {useThemeStore} from '../stores/theme';
 import {useSpotifyStore} from '../stores/dataSpotify'
+//router
+const router = useRouter();
 //provide-inject
 const { updateMode } = inject('mode');
 const props = defineProps(["song_", "className"])
@@ -11,7 +14,8 @@ const convertedData = ref({
   artist: props.song_.artist,
   time: props.song_.time,
   bgUrl: props.song_.bgUrl || "",
-  idArtist: props.song_.idArtist
+  idArtist: props.song_.idArtist,
+  idTrack: props.song_.idTrack,
 })
 const theme = ref({});
 
@@ -25,9 +29,12 @@ const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
 }
 const gotoArtistPage = async (id) =>{
-    await spotifyStore.getArtist(id);
     console.log(id);
+    await spotifyStore.getArtist(id);
     updateMode();
+}
+const gotoMusicPage = (id_track) => {
+  router.push({ name: 'music', params: { id: id_track } })
 }
 onMounted(() => {
   checkTheme();
@@ -43,13 +50,14 @@ onMounted(() => {
         </span>
         <img :src="convertedData.bgUrl" class="bg"/>
         <div>
-            <div class="name" @click="gotoArtistPage(convertedData.idArtist)"><p>{{ convertedData.name }}</p></div>
-            <p class="artist">{{ convertedData.artist }}</p>
+            <div class="name" @click="gotoMusicPage(convertedData.idTrack)"><p>{{ convertedData.name }}</p></div>
+            <p class="artist" @click="gotoArtistPage(convertedData.idArtist)">{{ convertedData.artist }}</p>
         </div>
     </div>
     <div class="right">
         <p class="time">{{ convertedData.time }}</p>
         <span class="flavor"><font-awesome-icon icon="fa-solid fa-heart" /></span>
+        <span class="tool"><font-awesome-icon icon="fa-solid fa-ellipsis" /></span>
     </div>
 </section>
 </template>
@@ -74,7 +82,6 @@ onMounted(() => {
             height: 56px;
           }
           div {
-            cursor: pointer;
             .name{
                 white-space: nowrap;
                 overflow: hidden;
@@ -92,12 +99,13 @@ onMounted(() => {
             .artist {
               @include styleText(v-bind('theme.colorPlayList1'), 12px, 400);
               line-height: 16px;
+              cursor: pointer;
             }
           }
         }
         .right {
           display: flex;
-          gap: 51px;
+          gap: 15px;
           align-items: center;
 
           .time {
@@ -108,6 +116,9 @@ onMounted(() => {
           .flavor {
             color: #565656;
           }
+          .tool {
+            color: v-bind('theme.colorTool')
+          }
         }
 }
 
@@ -117,15 +128,34 @@ onMounted(() => {
   .play{
     display: none;
   }
-}
-.song.song-news{
-  .bg{
-    display: none;
+  .right {
+    .flavor {
+      display: none;
+    }
   }
 }
+.song.song-news{
+    .left{
+        .bg {
+            display: none;
+          }
+    }
+            .right {
+              .tool {
+                display: none;
+              }
+            }
+}
 .song.song-artist{
-  .bg{
+  .left{
+      .bg {
+          display: none;
+        }
+  }
+  .right{
+   .tool{
     display: none;
+   }
   }
 }
 

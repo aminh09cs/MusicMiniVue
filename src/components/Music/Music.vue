@@ -88,7 +88,7 @@ const intervalTime = () => {
   });
 }
 const gotoHome = () => {
-  router.push({ name: "home" })
+  router.push({ name: "home", query: { access_token: localStorage.getItem('access_token'), refresh_token: localStorage.getItem('refresh_token') } })
 }
 const showLyric = () => {
   disabledBtnLyrics.value = false;

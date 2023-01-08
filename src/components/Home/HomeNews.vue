@@ -37,14 +37,16 @@ const getDataSearch = () =>{
         nameSong: item.name,
         artist: item.artists[0].name,
         bgUrl: item.album.images[0].url,
-        idArtist:item.artists[0].id
+        idArtist:item.artists[0].id,
+        idTrack: item.id
       })
     dataNewSongs.value.push(
       {
         nameSong: item.name,
         artist: item.artists[0].name,
         time: convertMinutes(item.duration_ms),
-        idArtist:item.artists[0].id
+        idArtist:item.artists[0].id,
+        idTrack: item.id
       })
   });
 }

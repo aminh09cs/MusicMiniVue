@@ -1,9 +1,9 @@
 import axios from "axios";
 const instance = axios.create({    //request
-  baseURL: 'https://api.spotify.com/v1',
+  baseURL: 'https://api.spotify.com/v1/',
   headers: {
     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-    "Accept": "application/json",
+    Accept: "application/json",
     "Content-Type": "application/json"
     
   }

@@ -23,16 +23,30 @@ onBeforeMount(()=>{
     artist_albums.value.push({
       nameAlbum: item.name,
       bgUrl: item.images[1].url,
+      idAlbum: item.id 
     })
   })
+  console.log(spotifyStore.getArtistTopTracks.tracks);
   spotifyStore.getArtistTopTracks.tracks?.forEach((item)=>{
     artist_tracks.value.push({
       nameSong: item.name,
       artist: item.artists[0].name,
-      time: '5:33'
+      idArtist: item.artists[0].id,
+      time: convertMinutes(item.duration_ms),
+      idTrack: item.id 
     })
   })
 })
+
+const convertMinutes = (mili) => {
+  let minutes = Math.floor(mili / 60000);
+  let seconds = (mili / 1000 - minutes * 60).toFixed(0);
+  if (seconds === '60') {
+    return `${minutes + 1}:00`;
+  }
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+}
+
 onMounted(()=>{
   checkTheme();
 })

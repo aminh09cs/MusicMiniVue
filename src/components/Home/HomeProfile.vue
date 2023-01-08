@@ -1,78 +1,42 @@
 <script setup>
 import Song2 from '../../helper/Song2.vue';
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, onMounted, ref } from 'vue'
 import {useThemeStore} from '../../stores/theme'
+import { useSpotifyStore } from '../../stores/dataSpotify';
 //refs
 const theme = ref({});
-const listSongs = ref([
-  {
-    nameSong: 'Bad Guy',
-    artist: 'Billie Eilish',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Scorpin',
-    artist: 'Drake',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Bad Guy',
-    artist: 'Billie Eilish',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Scorpin',
-    artist: 'Drake',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Bad Guy',
-    artist: 'Billie Eilish',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Scorpin',
-    artist: 'Drake',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Bad Guy',
-    artist: 'Billie Eilish',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Scorpin',
-    artist: 'Drake',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Bad Guy',
-    artist: 'Billie Eilish',
-    bgUrl: 'https://i.imgur.com/Lx5OODW.png',
-    time: '5:33'
-  },
-  {
-    nameSong: 'Scorpin',
-    artist: 'Drake',
-    bgUrl: 'https://i.imgur.com/eKv4wRQ.png',
-    time: '5:33'
-  },
-])
+const dataFlavor = ref([])
 //store
 const themeStore = useThemeStore();
+const spotifyStore = useSpotifyStore();
 
 //methods
 const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
 }
+onBeforeMount(async ()=>{
+  await spotifyStore.getUser();
+  console.log(spotifyStore.getUserPlaylistItems);
+  spotifyStore.getUserPlaylistItems?.items?.forEach((item)=>{;
+    dataFlavor.value.push({
+      nameSong: item.track.name,
+      artist: item.track.artists[0].name,
+      bgUrl: item.track.album.images[0].url,
+      time: convertMinutes(item.track.duration_ms),
+      idArtist: item.track.artists[0].id
+    })
+  })
+})
+
+const convertMinutes = (mili) => {
+  let minutes = Math.floor(mili / 60000);
+  let seconds = (mili / 1000 - minutes * 60).toFixed(0);
+  if (seconds === '60') {
+    return `${minutes + 1}:00`;
+  }
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+}
+
 onMounted(() => {
   checkTheme();
 })
@@ -94,21 +58,21 @@ onMounted(() => {
         </div>
         <div class="profile-header-info">
           <div class="profile-header-info-img">
-            <img src="../../assets/profile.png" alt="">
+            <img :src="`${spotifyStore?.user_info?.images[0]?.url}`" alt="">
           </div>
           <p class="profile-header-info-mail">
-            Soroushnorozyui@gmail.com
+            {{ spotifyStore?.user_info?.email? spotifyStore?.user_info?.email : "mail" }}
           </p>
           <h5 class="profile-header-info-name">
-            Soroushnrz
+            {{ spotifyStore?.user_info?.display_name? spotifyStore?.user_info?.display_name : "name" }}
           </h5>
           <div class="profile-header-info-follow">
             <div>
-              <p>778</p>
+              <p>{{ spotifyStore?.user_info?.followers ? spotifyStore?.user_info?.followers.total : "null" }}</p>
               <p>Following</p>
             </div>
             <div>
-              <p>243</p>
+              <p>{{ spotifyStore?.user_info?.followers ? spotifyStore?.user_info?.followers.total : "null" }}</p>
               <p>Follower</p>
             </div>
           </div>
@@ -119,7 +83,7 @@ onMounted(() => {
       </div>
       <div class="profile-content">
         <Song2
-          v-for="song in listSongs"
+          v-for="song in dataFlavor"
           className="song-profile"
           :song_ = "song"
         >
@@ -168,6 +132,13 @@ onMounted(() => {
         align-items: center;
         text-align: center;
         padding-bottom: 10px;
+        &-img{
+          img{
+              width: 93px;
+              height: 93px;
+              border-radius: 50%;
+          }
+        }
 
         &-mail {
           @include styleText(v-bind('theme.colorGmail'), 12px, 400);
@@ -175,7 +146,7 @@ onMounted(() => {
         }
 
         &-name {
-          @include styleText(#FFFFFF, 20px, 700);
+          @include styleText(v-bind('theme.colorGmail'), 20px, 700);
           line-height: 27px;
         }
 

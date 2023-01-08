@@ -47,6 +47,7 @@ state: () =>({
                     colorPlayList2: '#959595',
                     colorPlayList3: '#2C2C2C',
                     colorPlayListTitle: '#DBDBDB',
+                    colorTool: 'white',
 
                     //artist-page
                     colorNameArtist: '#E3E3E3',
@@ -103,6 +104,7 @@ state: () =>({
                     colorPlayList2: '#555555',
                     colorPlayList3: '#E6E6E6',
                     colorPlayListTitle: '#131313',
+                    colorTool: 'A68C8C',
 
                     ////artist-page
                     colorNameArtist: '#222222',

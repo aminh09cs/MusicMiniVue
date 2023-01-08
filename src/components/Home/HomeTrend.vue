@@ -26,20 +26,20 @@ const onHandleMode = (_mode) => {
   console.log(mode.value);
 }
 const gotoSignIn = () =>{
-    window.user = null; 
-    localStorage.setItem('user', null);
-    localStorage.setItem('access_token', null);
-    router.push({name: 'sign-in', query:{logout:null}});
+    // window.user = null; 
+    // localStorage.setItem('user', null);
+    // localStorage.setItem('access_token', null);
+    // router.push({name: 'sign-in', query:{logout:null}});
 }
 const checkTheme = () =>{
   theme.value = themeStore.chooseTheme();
 }
-onBeforeRouteLeave((to, from) =>{
-    const answer = window.confirm(
-      'Are you want logout?'
-      )
-    if(!answer) return false;
-  })
+// onBeforeRouteLeave((to, from) =>{
+//     const answer = window.confirm(
+//       'Are you want logout?'
+//       )
+//     if(!answer) return false;
+//   })
 onMounted(() => {
   checkTheme();
 })
