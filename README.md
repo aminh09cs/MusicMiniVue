@@ -1,4 +1,4 @@
-# spotify-mini-app
+# SPOTIFY MINI APP
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -8,27 +8,13 @@ This template should help get you started developing with Vue 3 in Vite.
 ## Features
 
  - Login Oauth2
+ - CRUD Music
+ - Listening 
+ - Update realtime with account Spotify
 
 ## Project Setup
 
 ```sh
-npm install
+Clone project and using 'npm run dev' on terminal project
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
