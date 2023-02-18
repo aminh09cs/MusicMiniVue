@@ -2,7 +2,7 @@
 
 This template should help get you started developing with Vue 3 in Vite.
 
-## Spotify server: https://github.com/csminh09/spotify-sever
+## Create spotify server: https://github.com/csminh09/spotify-sever
 
 
 ## Features
@@ -15,6 +15,7 @@ This template should help get you started developing with Vue 3 in Vite.
 ## Project Setup
 
 ```sh
+Clone spotify server
 Clone project and using 'npm run dev' on terminal project
 ```
 
